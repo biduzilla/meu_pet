@@ -20,6 +20,6 @@ import com.ricky.meupet.domain.model.Pet
 @TypeConverters(Converters::class)
 abstract class AppDatabase:RoomDatabase() {
 
-    abstract fun produtoDao():PetDao
-    abstract fun balancoDao():MedicamentoDao
+    abstract fun petDao():PetDao
+    abstract fun medicamentoDao():MedicamentoDao
 }
