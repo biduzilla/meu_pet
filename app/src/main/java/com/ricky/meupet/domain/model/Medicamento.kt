@@ -17,6 +17,7 @@ import java.util.UUID
 data class Medicamento(
     var id: String = UUID.randomUUID().toString(),
     var nome: String = "",
+    var descricao: String = "",
     var data: String = "",
     var proximaAplicacao: String = "",
     var aplicado: Boolean = false,
