@@ -11,6 +11,7 @@ data class Pet(
     var nome:String = "",
     var idade:String = "",
     var nascimento:String = "",
+    var pathFoto:String = "",
     var tipo: AnimalTipo = AnimalTipo.CAO,
     var raca:String ="",
     var genero:AnimalGenero = AnimalGenero.FEMEA,
