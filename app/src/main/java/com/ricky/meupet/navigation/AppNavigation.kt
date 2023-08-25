@@ -14,6 +14,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.ricky.meupet.presentation.form.FormScreen
+import com.ricky.meupet.presentation.form.FormViewModel
 import com.ricky.meupet.presentation.home.HomeScrenn
 import com.ricky.meupet.presentation.home.HomeViewModel
 import com.ricky.meupet.presentation.meus_pets.MeusPetsScreen
@@ -24,7 +27,7 @@ import com.ricky.meupet.presentation.splash.SplashViewModel
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AppNavigation() {
-    val navController = rememberNavController()
+    val navController = rememberAnimatedNavController()
 
     AnimatedNavHost(navController = navController, startDestination = Screens.SplashScreen.route) {
         composableSlideHorizontally(Screens.SplashScreen.route) {
@@ -34,7 +37,7 @@ fun AppNavigation() {
             SplashScreen(state = state, navController = navController)
         }
 
-        composableSlideHorizontally(Screens.HomeScreen.route) {
+        composableSlideHorizontally(Screens.HomeScreen.route + "/{petId}") {
             val viewModel = hiltViewModel<HomeViewModel>()
             val state by viewModel.state.collectAsState()
 
@@ -50,6 +53,17 @@ fun AppNavigation() {
             val state by viewModel.state.collectAsState()
 
             MeusPetsScreen(
+                state = state,
+                navController = navController,
+                onEvent = viewModel::onEvent
+            )
+        }
+
+        composableSlideHorizontally(Screens.FormScreen.route) {
+            val viewModel = hiltViewModel<FormViewModel>()
+            val state by viewModel.state.collectAsState()
+
+            FormScreen(
                 state = state,
                 navController = navController,
                 onEvent = viewModel::onEvent

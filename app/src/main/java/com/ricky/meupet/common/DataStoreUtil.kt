@@ -12,9 +12,9 @@ import kotlinx.coroutines.flow.map
 class DataStoreUtil(private val context: Context) {
 
     companion object {
-        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(Constants.settings)
+        private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(Constants.SETTINGS)
 
-        val THEME_KEY = booleanPreferencesKey(Constants.isDarkMode)
+        val THEME_KEY = booleanPreferencesKey(Constants.IS_DARK_MODE)
     }
 
     suspend fun saveTheme(isDark: Boolean) {

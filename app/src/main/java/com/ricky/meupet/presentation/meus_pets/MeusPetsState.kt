@@ -1,3 +1,7 @@
 package com.ricky.meupet.presentation.meus_pets
 
-data class MeusPetsState(val it:String = "")
+import com.ricky.meupet.domain.model.Pet
+
+data class MeusPetsState(
+    val pets: List<Pet> = emptyList()
+)

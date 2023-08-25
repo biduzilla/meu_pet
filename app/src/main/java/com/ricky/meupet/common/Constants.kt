@@ -1,6 +1,7 @@
 package com.ricky.meupet.common
 
 object Constants {
-    const val settings:String = "settings"
-    const val isDarkMode:String = "darkMode"
+    const val SETTINGS:String = "settings"
+    const val IS_DARK_MODE:String = "darkMode"
+    const val PARAM_PET_ID = "petId"
 }

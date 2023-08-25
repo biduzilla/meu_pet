@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Meu Pet</string>
+    <string name="cadastrar_pet">Cadastrar Pet</string>
+    <string name="meus_pets">Meus Pets</string>
 </resources>
