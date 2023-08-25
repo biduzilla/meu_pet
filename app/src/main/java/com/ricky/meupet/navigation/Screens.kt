@@ -10,6 +10,9 @@ sealed class Screens(
     object HomeScreen:Screens(
         route = "Home"
     )
+    object MeusPetsScreen:Screens(
+        route = "Meus Pets"
+    )
 }
 
 

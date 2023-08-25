@@ -16,6 +16,8 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.ricky.meupet.presentation.home.HomeScrenn
 import com.ricky.meupet.presentation.home.HomeViewModel
+import com.ricky.meupet.presentation.meus_pets.MeusPetsScreen
+import com.ricky.meupet.presentation.meus_pets.MeusPetsViewModel
 import com.ricky.meupet.presentation.splash.SplashScreen
 import com.ricky.meupet.presentation.splash.SplashViewModel
 
@@ -29,14 +31,29 @@ fun AppNavigation() {
             val viewModel = hiltViewModel<SplashViewModel>()
             val state by viewModel.state.collectAsState()
 
-            SplashScreen(state = state)
+            SplashScreen(state = state, navController = navController)
         }
 
         composableSlideHorizontally(Screens.HomeScreen.route) {
             val viewModel = hiltViewModel<HomeViewModel>()
             val state by viewModel.state.collectAsState()
 
-            HomeScrenn(state = state, onEvent = viewModel::onEvent)
+            HomeScrenn(
+                state = state,
+                navController = navController,
+                onEvent = viewModel::onEvent
+            )
+        }
+
+        composableSlideHorizontally(Screens.MeusPetsScreen.route) {
+            val viewModel = hiltViewModel<MeusPetsViewModel>()
+            val state by viewModel.state.collectAsState()
+
+            MeusPetsScreen(
+                state = state,
+                navController = navController,
+                onEvent = viewModel::onEvent
+            )
         }
     }
 }
