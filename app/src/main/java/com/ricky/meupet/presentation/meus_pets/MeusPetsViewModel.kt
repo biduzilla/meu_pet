@@ -11,7 +11,5 @@ class MeusPetsViewModel @Inject constructor():ViewModel() {
     private val _state = MutableStateFlow(MeusPetsState())
     val state = _state.asStateFlow()
 
-    fun onEvent(event: MeusPetsEvent){
 
-    }
 }

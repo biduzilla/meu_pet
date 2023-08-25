@@ -2,4 +2,16 @@
     <string name="app_name">Meu Pet</string>
     <string name="cadastrar_pet">Cadastrar Pet</string>
     <string name="meus_pets">Meus Pets</string>
+    <string name="nome">Nome do Pet</string>
+    <string name="idade">Idade</string>
+    <string name="nascimento">Data do Nascimento</string>
+    <string name="raca">Raça</string>
+    <string name="sexo">Sexo</string>
+    <string name="peso">Peso</string>
+    <string name="tipo">Tipo</string>
+    <string name="salvar_pet">Salvar</string>
+    <string name="campo_obrigatorio">Campo Obrigatório</string>
+    <string name="voltar">Voltar</string>
+    <string name="tipo_animal">Tipo de Animal</string>
+    <string name="escolher_data">Escolher data</string>
 </resources>

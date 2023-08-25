@@ -54,8 +54,7 @@ fun AppNavigation() {
 
             MeusPetsScreen(
                 state = state,
-                navController = navController,
-                onEvent = viewModel::onEvent
+                navController = navController
             )
         }
 

@@ -24,27 +24,27 @@ fun BottomNavigation(navController: NavHostController) {
         navController = navController,
         startDestination = BottomScreens.EventosScreens.route
     ) {
-        composable(BottomScreens.EventosScreens.route) {
+        composable(BottomScreens.EventosScreens.route + "/{petId}") {
             val viewModel = hiltViewModel<EventosViewModel>()
             val state by viewModel.state.collectAsState()
             EventosScreen(state = state, onEvent = viewModel::onEvent)
         }
-        composable(BottomScreens.VacinasScreens.route) {
+        composable(BottomScreens.VacinasScreens.route + "/{petId}") {
             val viewModel = hiltViewModel<VacinaViewModel>()
             val state by viewModel.state.collectAsState()
             VacinaScreen(state = state, onEvent = viewModel::onEvent)
         }
-        composable(BottomScreens.ConfigScreens.route) {
+        composable(BottomScreens.ConfigScreens.route + "/{petId}") {
             val viewModel = hiltViewModel<ConfigViewModel>()
             val state by viewModel.state.collectAsState()
             ConfigScreen(state = state, onEvent = viewModel::onEvent)
         }
-        composable(BottomScreens.MedicamentosScreens.route) {
+        composable(BottomScreens.MedicamentosScreens.route + "/{petId}") {
             val viewModel = hiltViewModel<MedicamentosViewModel>()
             val state by viewModel.state.collectAsState()
             MedicamentosScreen(state = state, onEvent = viewModel::onEvent)
         }
-        composable(BottomScreens.VermifugacaoScreens.route) {
+        composable(BottomScreens.VermifugacaoScreens.route + "/{petId}") {
             val viewModel = hiltViewModel<VermifucacaoViewModel>()
             val state by viewModel.state.collectAsState()
             VermifugacaoScreen(state = state, onEvent = viewModel::onEvent)

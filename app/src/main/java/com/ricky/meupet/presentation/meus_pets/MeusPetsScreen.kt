@@ -27,7 +27,6 @@ import com.ricky.meupet.ui.theme.MeuPetTheme
 fun MeusPetsScreen(
     state: MeusPetsState,
     navController: NavController,
-    onEvent: (MeusPetsEvent) -> Unit
 ) {
     Scaffold(topBar = {
         TopAppBar(modifier = Modifier.padding(16.dp), title = {
@@ -63,7 +62,7 @@ fun MeusPetsScreenPreview() {
         val context: Context = LocalContext.current
         MeusPetsScreen(
             state = MeusPetsState(),
-            navController = NavController(context),
-            onEvent = {})
+            navController = NavController(context)
+        )
     }
 }
