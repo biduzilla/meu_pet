@@ -1,6 +1,6 @@
 package com.ricky.meupet.domain.model.enum
 
-enum class AnimalGenero {
-    MACHO,
-    FEMEA;
+enum class AnimalGenero(val value:String) {
+    MACHO("Macho"),
+    FEMEA("Fêmea");
 }

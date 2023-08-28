@@ -4,10 +4,12 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -17,15 +19,23 @@ import androidx.compose.ui.text.input.KeyboardType
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTextField(
+    modifier: Modifier = Modifier,
     value: String,
     @StringRes label: Int,
     keyboardType: KeyboardType = KeyboardType.Text,
     icon: ImageVector? = null,
-    ime:ImeAction = ImeAction.Next,
+    ime: ImeAction = ImeAction.Next,
     onChange: (String) -> Unit
 ) {
     OutlinedTextField(
+        modifier = modifier,
         value = value,
+        colors = TextFieldDefaults.colors(
+            focusedTextColor = MaterialTheme.colorScheme.primary,
+            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+            focusedContainerColor = MaterialTheme.colorScheme.primary,
+            unfocusedContainerColor = MaterialTheme.colorScheme.primary
+        ),
         onValueChange = { onChange(it) },
         label = {
             Text(text = stringResource(id = label))

@@ -42,13 +42,15 @@ fun SplashScreen(
             Icon(
                 modifier = Modifier.size(250.dp),
                 imageVector = Icons.Default.Pets,
-                contentDescription = null
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primaryContainer
             )
             Text(
                 text = stringResource(id = R.string.app_name),
                 style = MaterialTheme.typography.headlineLarge.copy(
                     fontWeight = FontWeight.Bold
-                )
+                ),
+                color = MaterialTheme.colorScheme.primaryContainer
             )
         }
     }

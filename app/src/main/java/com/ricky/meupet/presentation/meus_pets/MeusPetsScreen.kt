@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -29,7 +30,9 @@ fun MeusPetsScreen(
     navController: NavController,
 ) {
     Scaffold(topBar = {
-        TopAppBar(modifier = Modifier.padding(16.dp), title = {
+        TopAppBar(modifier = Modifier.padding(16.dp), colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary
+        ), title = {
             Text(
                 text = stringResource(id = R.string.meus_pets),
                 style = MaterialTheme.typography.headlineMedium,
@@ -47,7 +50,9 @@ fun MeusPetsScreen(
                 CardAddPet(onClick = { navController.navigate(route = Screens.FormScreen.route) })
             }
             items(state.pets) { pet ->
-                CardAddPet(onClick = { navController.navigate(route = Screens.HomeScreen.route + "/${pet.id}") })
+                CardAddPet(
+                    pet = pet,
+                    onClick = { navController.navigate(route = Screens.HomeScreen.route + "/${pet.id}") })
             }
         }
 

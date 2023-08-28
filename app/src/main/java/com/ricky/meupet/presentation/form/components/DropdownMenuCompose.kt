@@ -1,5 +1,6 @@
 package com.ricky.meupet.presentation.form.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -25,6 +26,7 @@ fun <T : Enum<T>> DropdownCompose(
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
+        modifier = modifier,
         expanded = expanded,
         onExpandedChange = {
             expanded = !expanded
@@ -35,7 +37,9 @@ fun <T : Enum<T>> DropdownCompose(
             onValueChange = {},
             readOnly = true,
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            modifier = Modifier.menuAnchor()
+            modifier = Modifier
+                .menuAnchor()
+                .fillMaxWidth()
         )
         ExposedDropdownMenu(
             expanded = expanded,

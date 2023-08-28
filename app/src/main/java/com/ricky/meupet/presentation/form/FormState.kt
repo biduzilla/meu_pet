@@ -11,7 +11,7 @@ data class FormState(
     var tipo: AnimalTipo = AnimalTipo.CAO,
     var raca: String = "",
     var genero: AnimalGenero = AnimalGenero.FEMEA,
-    var peso: Float = 0f,
+    var peso: String = "",
     var isShowDataPicker: Boolean = false,
     var onErrorNome: Boolean = false,
     var onErrorNascimento: Boolean = false,

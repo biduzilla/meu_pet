@@ -1,9 +1,7 @@
 package com.ricky.meupet.presentation.form
 
-import android.widget.DatePicker
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,23 +11,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,7 +56,9 @@ fun FormScreen(
     onEvent: (FormEvent) -> Unit
 ) {
     Scaffold(topBar = {
-        CenterAlignedTopAppBar(title = {
+        CenterAlignedTopAppBar(colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primary
+        ), title = {
             Text(
                 text = stringResource(id = R.string.cadastrar_pet),
                 style = MaterialTheme.typography.headlineMedium
@@ -85,10 +83,10 @@ fun FormScreen(
     }) { paddingValues ->
         Column(
             Modifier
-                .padding(top = paddingValues.calculateTopPadding())
+                .padding(paddingValues)
+                .padding(horizontal = 16.dp)
                 .fillMaxSize()
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.height(32.dp))
@@ -119,34 +117,34 @@ fun FormScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
             TextError(isErro = state.onErrorNome)
-            CustomTextField(
+            CustomTextField(modifier = Modifier.fillMaxWidth(),
                 value = state.nome,
                 label = R.string.nome,
                 onChange = { onEvent(FormEvent.OnChangeNome(it)) })
 
             Spacer(modifier = Modifier.height(16.dp))
             TextError(isErro = state.onErrorRaca)
-            CustomTextField(
+            CustomTextField(modifier = Modifier.fillMaxWidth(),
                 value = state.raca,
                 label = R.string.raca,
                 onChange = { onEvent(FormEvent.OnChangeRaca(it)) })
 
             Spacer(modifier = Modifier.height(16.dp))
             TextError(isErro = state.onErrorPeso)
-            CustomTextField(
-                value = state.peso.toString(),
+            CustomTextField(modifier = Modifier.fillMaxWidth(),
+                value = state.peso,
                 label = R.string.peso,
                 keyboardType = KeyboardType.Decimal,
-                onChange = { onEvent(FormEvent.OnChangePeso(it.toFloat())) })
+                onChange = { onEvent(FormEvent.OnChangePeso(it)) })
 
             Spacer(modifier = Modifier.height(16.dp))
             Card(
-                modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
                 elevation = CardDefaults.cardElevation(10.dp),
                 onClick = {
                     onEvent(FormEvent.ShowDataPicker)
-                }
+                },
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
             ) {
                 Text(
                     text = state.nascimento.ifBlank { stringResource(id = R.string.nascimento) },
@@ -167,8 +165,8 @@ fun FormScreen(
                 textAlign = TextAlign.Start,
                 modifier = Modifier.fillMaxWidth()
             )
-            DropdownCompose(
-                label = state.tipo.name,
+            DropdownCompose(modifier = Modifier.fillMaxWidth(),
+                label = state.tipo.value,
                 list = AnimalTipo.values(),
                 onChange = { onEvent(FormEvent.OnChangeTipo(it)) }
             )
@@ -180,8 +178,8 @@ fun FormScreen(
                 textAlign = TextAlign.Start,
                 modifier = Modifier.fillMaxWidth()
             )
-            DropdownCompose(
-                label = state.genero.name,
+            DropdownCompose(modifier = Modifier.fillMaxWidth(),
+                label = state.genero.value,
                 list = AnimalGenero.values(),
                 onChange = { onEvent(FormEvent.OnChangeGenero(it)) }
             )
