@@ -1,5 +1,9 @@
 package com.ricky.meupet.presentation.form
 
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -37,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.room.util.EMPTY_STRING_ARRAY
 import coil.compose.rememberAsyncImagePainter
 import com.ricky.meupet.R
 import com.ricky.meupet.domain.model.enum.AnimalGenero
@@ -55,6 +60,24 @@ fun FormScreen(
     navController: NavController,
     onEvent: (FormEvent) -> Unit
 ) {
+
+    val context = LocalContext.current
+    val photoPicker =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickVisualMedia(),
+            onResult = {
+                onEvent(FormEvent.SelectPhoto(it, context))
+            })
+
+    if (state.onErrorPhoto) {
+        Toast.makeText(context, "Escolha uma foto", Toast.LENGTH_SHORT).show()
+    }
+    if (state.onErrorNascimento) {
+        Toast.makeText(context, "Escolha uma data de nascimento", Toast.LENGTH_SHORT).show()
+    }
+    if (state.isOk) {
+        navController.popBackStack()
+    }
     Scaffold(topBar = {
         CenterAlignedTopAppBar(colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary
@@ -72,7 +95,9 @@ fun FormScreen(
             }
         },
             actions = {
-                IconButton(onClick = { onEvent(FormEvent.AddPet) }) {
+                IconButton(onClick = {
+                    onEvent(FormEvent.AddPet)
+                }) {
                     Icon(
                         imageVector = Icons.Filled.Done,
                         contentDescription = stringResource(id = R.string.salvar_pet)
@@ -93,7 +118,13 @@ fun FormScreen(
             Card(
                 modifier = Modifier
                     .size(200.dp)
-                    .clickable { onEvent(FormEvent.AddImage) },
+                    .clickable {
+                        photoPicker.launch(
+                            PickVisualMediaRequest(
+                                ActivityResultContracts.PickVisualMedia.ImageOnly
+                            )
+                        )
+                    },
                 shape = RoundedCornerShape(10.dp),
                 elevation = CardDefaults.elevatedCardElevation(10.dp)
             ) {

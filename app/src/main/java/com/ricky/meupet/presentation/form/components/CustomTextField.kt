@@ -30,12 +30,6 @@ fun CustomTextField(
     OutlinedTextField(
         modifier = modifier,
         value = value,
-        colors = TextFieldDefaults.colors(
-            focusedTextColor = MaterialTheme.colorScheme.primary,
-            unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
-            focusedContainerColor = MaterialTheme.colorScheme.primary,
-            unfocusedContainerColor = MaterialTheme.colorScheme.primary
-        ),
         onValueChange = { onChange(it) },
         label = {
             Text(text = stringResource(id = label))

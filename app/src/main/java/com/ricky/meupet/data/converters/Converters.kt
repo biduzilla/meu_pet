@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.ricky.meupet.domain.model.enum.AnimalGenero
 import com.ricky.meupet.domain.model.enum.AnimalTipo
 import com.ricky.meupet.domain.model.enum.MedicamentoTipo
+import java.math.BigDecimal
 
 class Converters {
     @TypeConverter
@@ -35,13 +36,14 @@ class Converters {
     fun toGeneroAnimal(value: String): AnimalGenero {
         return enumValueOf(value)
     }
+
     @TypeConverter
-    fun fromFloat(value: Float): String {
-        return value.toString()
+    fun fromBigDecimal(value: BigDecimal?): String? {
+        return value?.toString()
     }
 
     @TypeConverter
-    fun toFloat(value: String): Float {
-        return value.toFloat()
+    fun toBigDecimal(value: String?): BigDecimal? {
+        return value?.let { BigDecimal(it) }
     }
 }

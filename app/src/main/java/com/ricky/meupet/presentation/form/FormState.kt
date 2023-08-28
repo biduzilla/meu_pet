@@ -1,5 +1,8 @@
 package com.ricky.meupet.presentation.form
 
+import android.content.Context
+import android.net.Uri
+import androidx.compose.ui.platform.LocalContext
 import com.ricky.meupet.domain.model.enum.AnimalGenero
 import com.ricky.meupet.domain.model.enum.AnimalTipo
 
@@ -8,7 +11,7 @@ data class FormState(
     var idade: String = "",
     var nascimento: String = "",
     var pathFoto: String = "",
-    var tipo: AnimalTipo = AnimalTipo.CAO,
+    var tipo: AnimalTipo = AnimalTipo.CACHORRO,
     var raca: String = "",
     var genero: AnimalGenero = AnimalGenero.FEMEA,
     var peso: String = "",
@@ -18,4 +21,5 @@ data class FormState(
     var onErrorRaca: Boolean = false,
     var onErrorPeso: Boolean = false,
     var onErrorPhoto: Boolean = false,
+    var isOk: Boolean = false
 )

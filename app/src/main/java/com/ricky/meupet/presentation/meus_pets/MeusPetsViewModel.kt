@@ -1,15 +1,42 @@
 package com.ricky.meupet.presentation.meus_pets
 
+import android.content.Context
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.ricky.meupet.common.calculateAgeAndMonths
+import com.ricky.meupet.common.convertToDate
+import com.ricky.meupet.common.getFilePathFromContentUri
+import com.ricky.meupet.domain.repository.PetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MeusPetsViewModel @Inject constructor():ViewModel() {
+class MeusPetsViewModel @Inject constructor(private val repository: PetRepository) : ViewModel() {
     private val _state = MutableStateFlow(MeusPetsState())
     val state = _state.asStateFlow()
 
+    init {
+        recuperaPets()
+    }
 
+    private fun recuperaPets() {
+        viewModelScope.launch {
+            repository.getAllPets().let { pets ->
+                pets.collect { petsRecuperados ->
+                    petsRecuperados.map {
+                        it.idade = calculateAgeAndMonths(it.nascimento.convertToDate()!!)
+                    }
+                    _state.value = _state.value.copy(
+                        pets = petsRecuperados,
+                    )
+                }
+            }
+        }
+    }
 }
