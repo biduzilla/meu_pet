@@ -15,6 +15,8 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.ricky.meupet.presentation.config.ConfigScreen
+import com.ricky.meupet.presentation.config.ConfigViewModel
 import com.ricky.meupet.presentation.form.FormScreen
 import com.ricky.meupet.presentation.form.FormViewModel
 import com.ricky.meupet.presentation.home.HomeScrenn
@@ -37,7 +39,7 @@ fun AppNavigation() {
             SplashScreen(state = state, navController = navController)
         }
 
-        composableSlideHorizontally(Screens.HomeScreen.route + "/{petId}") {
+        composableSlideHorizontally(route = Screens.HomeScreen.route + "/{petId}") {
             val viewModel = hiltViewModel<HomeViewModel>()
             val state by viewModel.state.collectAsState()
 
@@ -48,7 +50,7 @@ fun AppNavigation() {
             )
         }
 
-        composableSlideHorizontally(Screens.MeusPetsScreen.route) {
+        composableSlideHorizontally(route = Screens.MeusPetsScreen.route) {
             val viewModel = hiltViewModel<MeusPetsViewModel>()
             val state by viewModel.state.collectAsState()
 
@@ -58,7 +60,18 @@ fun AppNavigation() {
             )
         }
 
-        composableSlideHorizontally(Screens.FormScreen.route) {
+        composableSlideHorizontally(route = Screens.ConfigScreen.route) {
+            val viewModel = hiltViewModel<ConfigViewModel>()
+            val state by viewModel.state.collectAsState()
+
+            ConfigScreen(
+                state = state,
+                navController = navController,
+                onEvent = viewModel::onEvent
+            )
+        }
+
+        composableSlideHorizontally(route = Screens.FormScreen.route) {
             val viewModel = hiltViewModel<FormViewModel>()
             val state by viewModel.state.collectAsState()
 

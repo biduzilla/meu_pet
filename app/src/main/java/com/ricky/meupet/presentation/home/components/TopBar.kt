@@ -44,7 +44,10 @@ fun TopBar(
     onPressVoltar: () -> Unit,
     onChangeTheme: (Boolean) -> Unit,
 ) {
-    Surface(modifier = modifier.fillMaxWidth()) {
+    Surface(
+        modifier = modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.primary
+    ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Top
@@ -87,6 +90,7 @@ fun TopBar(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
+                    .padding(bottom = 32.dp)
             ) {
                 Card(
                     shape = CircleShape,
@@ -102,7 +106,6 @@ fun TopBar(
                 Column(
                     Modifier
                         .padding(horizontal = 16.dp)
-                        .padding(bottom = 32.dp)
                 ) {
                     Text(
                         text = pet.nome,

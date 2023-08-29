@@ -17,6 +17,10 @@ sealed class Screens(
     object FormScreen:Screens(
         route = "Form"
     )
+
+    object ConfigScreen:Screens(
+        route = "Config"
+    )
 }
 
 

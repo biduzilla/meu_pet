@@ -1,8 +1,11 @@
 package com.ricky.meupet.presentation.home.components
 
+import android.util.Log
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -13,11 +16,11 @@ import com.ricky.meupet.navigation.BottomScreens
 @Composable
 fun BottomBar(navController: NavController, petId: String) {
     val items = listOf(
-        BottomScreens.VacinasScreens,
-        BottomScreens.MedicamentosScreens,
-        BottomScreens.VermifugacaoScreens,
         BottomScreens.EventosScreens,
-        BottomScreens.ConfigScreens,
+        BottomScreens.VacinasScreens,
+        BottomScreens.VermifugacaoScreens,
+        BottomScreens.MedicamentosScreens,
+//        BottomScreens.ConfigScreens,
     )
 
     NavigationBar {
@@ -25,8 +28,20 @@ fun BottomBar(navController: NavController, petId: String) {
         val currentRoute = navBackStackEntry?.destination?.route
 
         items.forEach { item ->
-            NavigationBarItem(selected = currentRoute == item.route,
+            NavigationBarItem(
+                selected = currentRoute?.split("/")
+                    ?.get(0) == item.route,
                 label = { Text(text = item.route) },
+                colors = NavigationBarItemDefaults.colors(),
+                alwaysShowLabel = true,
+                icon = {
+                    Icon(
+                        imageVector = if (currentRoute?.split("/")
+                                ?.get(0) == item.route
+                        ) item.selectedIcon else item.unselectedIcon,
+                        contentDescription = item.route
+                    )
+                },
                 onClick = {
                     navController.navigate(item.route + "/$petId") {
                         navController.graph.startDestinationRoute?.let { route ->
@@ -38,12 +53,6 @@ fun BottomBar(navController: NavController, petId: String) {
                         restoreState = true
                     }
                 },
-                icon = {
-                    Icon(
-                        imageVector = if (currentRoute == item.route) item.selectedIcon else item.unselectedIcon,
-                        contentDescription = item.route
-                    )
-                }
             )
         }
     }

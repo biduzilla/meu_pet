@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,9 +42,6 @@ fun MeusPetsScreen(
 ) {
     val context = LocalContext.current
 
-//    state.pets.forEach {
-//        deleteFileAtPath(it.pathFoto)
-//    }
     Scaffold(topBar = {
         TopAppBar(
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -52,7 +50,9 @@ fun MeusPetsScreen(
             title = {
                 Text(
                     text = stringResource(id = R.string.meus_pets),
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.Bold
+                    ),
                     textAlign = TextAlign.Center
                 )
             })
@@ -71,8 +71,8 @@ fun MeusPetsScreen(
                 CardAddPet(
                     pet = pet,
                     onClick = {
-//                        navController.navigate(route = Screens.HomeScreen.route + "/${pet.id}")
-                        Toast.makeText(context, pet.nome, Toast.LENGTH_SHORT).show()
+                        navController.navigate(route = Screens.HomeScreen.route + "/${pet.id}")
+//                        Toast.makeText(context, pet.nome, Toast.LENGTH_SHORT).show()
                     })
             }
         }

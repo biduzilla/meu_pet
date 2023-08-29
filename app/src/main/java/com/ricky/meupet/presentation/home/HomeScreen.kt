@@ -21,7 +21,8 @@ fun HomeScrenn(
 ) {
     val navControllerBottom = rememberNavController()
 
-    Scaffold(topBar = {
+    Scaffold(
+        topBar = {
         TopBar(
             pet = state.pet,
             isDark = state.isDark,
