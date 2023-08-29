@@ -99,6 +99,8 @@ class FormViewModel @Inject constructor(private val repository: PetRepository) :
                             isOk = true
                         )
                     }
+                } ?: run {
+                    return
                 }
             }
 
@@ -166,14 +168,22 @@ class FormViewModel @Inject constructor(private val repository: PetRepository) :
     }
 
     private fun saveImageToInternalStorage(id: String, context: Context, uri: Uri): String? {
-        val inputStream = context.contentResolver.openInputStream(uri)
-        val outputStream = context.openFileOutput("$id.jpg", Context.MODE_PRIVATE)
-        inputStream?.use { input ->
-            outputStream.use { output ->
-                input.copyTo(output)
+        try {
+            val inputStream = context.contentResolver.openInputStream(uri)
+            val outputStream = context.openFileOutput("$id.jpg", Context.MODE_PRIVATE)
+            inputStream?.use { input ->
+                outputStream.use { output ->
+                    input.copyTo(output)
+                }
             }
-        }
 
-        return context.getFileStreamPath("$id.jpg")?.absolutePath
+            return context.getFileStreamPath("$id.jpg")?.absolutePath
+        } catch (e: Exception) {
+            _state.value = _state.value.copy(
+                onErrorPhoto = true,
+                pathFoto = ""
+            )
+        }
+        return null
     }
 }
