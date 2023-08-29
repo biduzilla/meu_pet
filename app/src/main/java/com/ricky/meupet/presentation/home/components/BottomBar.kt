@@ -1,8 +1,6 @@
 package com.ricky.meupet.presentation.home.components
 
-import android.util.Log
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -14,7 +12,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.ricky.meupet.navigation.BottomScreens
 
 @Composable
-fun BottomBar(navController: NavController, petId: String) {
+fun BottomBar(navController: NavController, petId: String, onChangeTela: (String) -> Unit) {
     val items = listOf(
         BottomScreens.EventosScreens,
         BottomScreens.VacinasScreens,
@@ -43,6 +41,12 @@ fun BottomBar(navController: NavController, petId: String) {
                     )
                 },
                 onClick = {
+                    when {
+                        item.route.contains("Evento") -> onChangeTela("Próximos Eventos")
+                        item.route.contains("Vacinas") -> onChangeTela("Vacina")
+                        item.route.contains("Vermifugação") -> onChangeTela("Vermifugação")
+                        item.route.contains("Medicamentos") -> onChangeTela("Medicamentos")
+                    }
                     navController.navigate(item.route + "/$petId") {
                         navController.graph.startDestinationRoute?.let { route ->
                             popUpTo(route) {

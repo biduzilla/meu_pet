@@ -54,6 +54,14 @@ class HomeViewModel @Inject constructor(
                     dataStoreUtil.saveTheme(event.isDark)
                 }
             }
+
+            is HomeEvent.OnChangeTela -> {
+                _state.update {
+                    it.copy(
+                        label = event.label
+                    )
+                }
+            }
         }
     }
 }

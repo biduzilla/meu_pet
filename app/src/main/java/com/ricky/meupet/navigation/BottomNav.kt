@@ -29,11 +29,6 @@ fun BottomNavigation(navController: NavHostController) {
             val state by viewModel.state.collectAsState()
             EventosScreen(state = state, onEvent = viewModel::onEvent)
         }
-        composable(BottomScreens.EventosScreens.route) {
-            val viewModel = hiltViewModel<EventosViewModel>()
-            val state by viewModel.state.collectAsState()
-            EventosScreen(state = state, onEvent = viewModel::onEvent)
-        }
         composable(BottomScreens.VacinasScreens.route + "/{petId}") {
             val viewModel = hiltViewModel<VacinaViewModel>()
             val state by viewModel.state.collectAsState()
