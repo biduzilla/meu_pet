@@ -1,4 +1,4 @@
-package com.ricky.meupet.domain.model.enum
+package com.ricky.meupet.domain.model.tipos
 
 enum class MedicamentoTipo {
     MEDICAMENTO,

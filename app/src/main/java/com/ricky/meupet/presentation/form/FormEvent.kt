@@ -2,8 +2,8 @@ package com.ricky.meupet.presentation.form
 
 import android.content.Context
 import android.net.Uri
-import com.ricky.meupet.domain.model.enum.AnimalGenero
-import com.ricky.meupet.domain.model.enum.AnimalTipo
+import com.ricky.meupet.domain.model.tipos.AnimalGenero
+import com.ricky.meupet.domain.model.tipos.AnimalTipo
 
 sealed interface FormEvent {
     object AddPet : FormEvent

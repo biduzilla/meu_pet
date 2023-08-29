@@ -41,11 +41,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.room.util.EMPTY_STRING_ARRAY
 import coil.compose.rememberAsyncImagePainter
 import com.ricky.meupet.R
-import com.ricky.meupet.domain.model.enum.AnimalGenero
-import com.ricky.meupet.domain.model.enum.AnimalTipo
+import com.ricky.meupet.domain.model.tipos.AnimalGenero
+import com.ricky.meupet.domain.model.tipos.AnimalTipo
 import com.ricky.meupet.presentation.form.components.CustomTextField
 import com.ricky.meupet.presentation.form.components.DateDialiog
 import com.ricky.meupet.presentation.form.components.DropdownCompose
@@ -197,7 +196,7 @@ fun FormScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             DropdownCompose(modifier = Modifier.fillMaxWidth(),
-                label = state.tipo.value,
+                label = state.tipo.name,
                 list = AnimalTipo.values(),
                 onChange = { onEvent(FormEvent.OnChangeTipo(it)) }
             )
@@ -210,7 +209,7 @@ fun FormScreen(
                 modifier = Modifier.fillMaxWidth()
             )
             DropdownCompose(modifier = Modifier.fillMaxWidth(),
-                label = state.genero.value,
+                label = state.genero.name,
                 list = AnimalGenero.values(),
                 onChange = { onEvent(FormEvent.OnChangeGenero(it)) }
             )

@@ -1,9 +1,9 @@
 package com.ricky.meupet.data.converters
 
 import androidx.room.TypeConverter
-import com.ricky.meupet.domain.model.enum.AnimalGenero
-import com.ricky.meupet.domain.model.enum.AnimalTipo
-import com.ricky.meupet.domain.model.enum.MedicamentoTipo
+import com.ricky.meupet.domain.model.tipos.AnimalGenero
+import com.ricky.meupet.domain.model.tipos.AnimalTipo
+import com.ricky.meupet.domain.model.tipos.MedicamentoTipo
 import java.math.BigDecimal
 
 class Converters {

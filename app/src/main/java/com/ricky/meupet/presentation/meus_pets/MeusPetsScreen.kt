@@ -31,6 +31,7 @@ import com.ricky.meupet.R
 import com.ricky.meupet.navigation.Screens
 import com.ricky.meupet.presentation.meus_pets.components.CardAddPet
 import com.ricky.meupet.ui.theme.MeuPetTheme
+import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,6 +41,9 @@ fun MeusPetsScreen(
 ) {
     val context = LocalContext.current
 
+//    state.pets.forEach {
+//        deleteFileAtPath(it.pathFoto)
+//    }
     Scaffold(topBar = {
         TopAppBar(
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -75,6 +79,11 @@ fun MeusPetsScreen(
 
     }
 
+}
+
+fun deleteFileAtPath(filePath: String): Boolean {
+    val fileToDelete = File(filePath)
+    return fileToDelete.delete()
 }
 
 @Preview

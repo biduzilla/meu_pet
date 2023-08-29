@@ -15,7 +15,6 @@ import com.ricky.meupet.R
 fun DateDialiog(
     onDimiss: () -> Unit,
     onChangeDate: (Long) -> Unit,
-
     ) {
     val datePickerState = rememberDatePickerState()
 

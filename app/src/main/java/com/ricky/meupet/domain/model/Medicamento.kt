@@ -2,7 +2,7 @@ package com.ricky.meupet.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ricky.meupet.domain.model.enum.MedicamentoTipo
+import com.ricky.meupet.domain.model.tipos.MedicamentoTipo
 import java.util.UUID
 
 @Entity

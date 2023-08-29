@@ -3,6 +3,7 @@ package com.ricky.meupet.presentation.form
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.util.Calendar
 import java.util.Date
 import java.util.UUID
 import javax.inject.Inject
@@ -60,7 +62,16 @@ class FormViewModel @Inject constructor(private val repository: PetRepository) :
                     )
                     return
                 }
-
+//                val pet = Pet(
+//                    nome = _state.value.nome,
+//                    idade = _state.value.idade,
+//                    nascimento = _state.value.nascimento,
+//                    tipo = _state.value.tipo,
+//                    raca = _state.value.raca,
+//                    genero = _state.value.genero,
+//                    peso = BigDecimal(_state.value.peso)
+//                )
+//                Log.i("infoteste", "onEvent: $pet")
 
                 val id = UUID.randomUUID().toString()
                 val pathFile = saveImageToInternalStorage(
@@ -81,6 +92,7 @@ class FormViewModel @Inject constructor(private val repository: PetRepository) :
                         genero = _state.value.genero,
                         peso = BigDecimal(_state.value.peso)
                     )
+                    Log.i("infoteste", "onEvent: $pet")
                     viewModelScope.launch {
                         repository.insertPet(pet)
                         _state.value = _state.value.copy(
@@ -91,8 +103,12 @@ class FormViewModel @Inject constructor(private val repository: PetRepository) :
             }
 
             is FormEvent.OnChangeDate -> {
+                val calendar = Calendar.getInstance()
+                calendar.time = Date(event.date)
+                calendar.add(Calendar.DAY_OF_YEAR, 1)
+
                 _state.value = _state.value.copy(
-                    nascimento = Date(event.date).convertToString(),
+                    nascimento = calendar.time.convertToString(),
                     idade = calculateAgeAndMonths(Date(event.date)),
                     onErrorNascimento = false
                 )
@@ -131,7 +147,6 @@ class FormViewModel @Inject constructor(private val repository: PetRepository) :
                 _state.value = _state.value.copy(
                     tipo = event.tipo
                 )
-
             }
 
             FormEvent.ShowDataPicker -> {

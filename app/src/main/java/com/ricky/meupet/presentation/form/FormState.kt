@@ -1,10 +1,7 @@
 package com.ricky.meupet.presentation.form
 
-import android.content.Context
-import android.net.Uri
-import androidx.compose.ui.platform.LocalContext
-import com.ricky.meupet.domain.model.enum.AnimalGenero
-import com.ricky.meupet.domain.model.enum.AnimalTipo
+import com.ricky.meupet.domain.model.tipos.AnimalGenero
+import com.ricky.meupet.domain.model.tipos.AnimalTipo
 
 data class FormState(
     var nome: String = "",
