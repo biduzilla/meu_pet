@@ -29,7 +29,7 @@ class FormViewModel @Inject constructor(private val repository: PetRepository) :
 
     private lateinit var context: Context
 
-    fun onEvent(event: FormEvent, isOk: (Boolean) -> Unit = {}) {
+    fun onEvent(event: FormEvent) {
         when (event) {
             FormEvent.AddPet -> {
                 if (_state.value.nome.isBlank()) {
