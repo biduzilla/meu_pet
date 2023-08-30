@@ -2,6 +2,8 @@ package com.ricky.meupet.presentation.vacinas
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -45,17 +47,28 @@ fun VacinaScreen(
                 isProxVacina = { onEvent(VacinaEvent.IsSelectProxVacina(it)) }
             )
         }
-        LazyColumn(modifier = Modifier.padding(paddingValues)) {
+        LazyColumn(
+            modifier = Modifier
+                .padding(paddingValues)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
             items(state.medicamentosMesAno) { item ->
                 Text(
                     text = item.mesAno,
                     style = MaterialTheme.typography.headlineLarge,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 Divider()
+                Spacer(modifier = Modifier.height(8.dp))
                 item.medicamentos.forEach { medicamento ->
-                    CardRemedio(medicamento = medicamento)
+                    CardRemedio(medicamento = medicamento) {
+                        onEvent(VacinaEvent.OnDeleteVacina(medicamento.medicamento.id))
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
+
             }
         }
     }

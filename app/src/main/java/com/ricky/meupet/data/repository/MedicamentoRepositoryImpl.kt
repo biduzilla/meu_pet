@@ -44,4 +44,8 @@ class MedicamentoRepositoryImpl @Inject constructor(private val dao: Medicamento
     ) {
         dao.updateMedicamentoWithAplicacoes(medicamento, aplicacoes)
     }
+
+    override fun getMedicamentosWithAplicacaoByPetId(petId: String): Flow<List<MedicamentoWithAplicacoes>> {
+        return dao.getMedicamentosWithAplicacaoByPetId(petId)
+    }
 }

@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ricky.meupet.common.Constants
 import com.ricky.meupet.common.convertToString
+import com.ricky.meupet.common.formatarListaMesAno
+import com.ricky.meupet.domain.MedicamentosMesAno
 import com.ricky.meupet.domain.model.Aplicacao
 import com.ricky.meupet.domain.model.Medicamento
 import com.ricky.meupet.domain.model.relationship.MedicamentoWithAplicacoes
@@ -32,6 +34,39 @@ class VacinaViewModel @Inject constructor(
     init {
         savedStateHandle.get<String>(Constants.PARAM_PET_ID)?.let { petIdRecuperado ->
             petId = petIdRecuperado
+            recuperaMedicamentos(petId)
+        }
+    }
+
+    private fun recuperaMedicamentos(petId: String) {
+        viewModelScope.launch {
+            repository.getMedicamentosWithAplicacaoByPetId(petId).collect { itens ->
+                val medicamentosMesAnoList = mutableListOf<MedicamentosMesAno>()
+
+                val vacinasPorMesAno = itens
+                    .flatMap { it.aplicacoes }
+                    .groupBy { aplicacao ->
+                        aplicacao.data.substring(3)
+                    }
+
+                for ((mesAno, vacinas) in vacinasPorMesAno) {
+                    val medicamentoWithAplicacoesList = vacinas.mapNotNull { aplicacao ->
+                        itens.find { it.aplicacoes.contains(aplicacao) }
+                    }
+
+                    medicamentosMesAnoList.add(
+                        MedicamentosMesAno(
+                            medicamentos = medicamentoWithAplicacoesList,
+                            mesAno = mesAno
+                        )
+                    )
+                    _state.update {
+                        it.copy(
+                            medicamentosMesAno = formatarListaMesAno(medicamentosMesAnoList)
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -179,6 +214,10 @@ class VacinaViewModel @Inject constructor(
                         isProxVacina = event.isProximaVacina
                     )
                 }
+            }
+
+            is VacinaEvent.OnDeleteVacina -> {
+
             }
         }
     }

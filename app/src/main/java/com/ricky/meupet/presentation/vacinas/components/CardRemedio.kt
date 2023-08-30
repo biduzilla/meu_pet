@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Vaccines
@@ -44,7 +46,8 @@ import com.ricky.meupet.ui.theme.MeuPetTheme
 fun CardRemedio(
     modifier: Modifier = Modifier,
     medicamento: MedicamentoWithAplicacoes,
-    icon: ImageVector = Icons.Default.Vaccines
+    icon: ImageVector = Icons.Default.Vaccines,
+    onDelete: () -> Unit
 ) {
     var expanded by remember {
         mutableStateOf(false)
@@ -61,7 +64,6 @@ fun CardRemedio(
                     )
                 )
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.Bottom
         ) {
             Image(
                 imageVector = icon,
@@ -70,6 +72,7 @@ fun CardRemedio(
                     .size(80.dp)
                     .clip(shape = RoundedCornerShape(20.dp))
                     .padding(16.dp)
+                    .align(Alignment.CenterVertically)
             )
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -85,10 +88,16 @@ fun CardRemedio(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 if (medicamento.medicamento.tipo == MedicamentoTipo.VACINA) {
-                    Text(
-                        text = medicamento.aplicacoes[0].data,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
+                    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                        Text(
+                            text = "Vacinado em ${medicamento.aplicacoes[0].data}",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Text(
+                            text = "Revacinar em ${medicamento.aplicacoes[0].proximaAplicacao}",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 if (expanded) {
@@ -99,13 +108,27 @@ fun CardRemedio(
                     )
                 }
             }
-            IconButton(onClick = {
-                expanded = !expanded
-            }) {
-                Icon(
-                    imageVector = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
-                    contentDescription = null
-                )
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween,
+            ) {
+                IconButton(
+                    onClick = {
+                        onDelete()
+                    },
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = null
+                    )
+                }
+                IconButton(onClick = {
+                    expanded = !expanded
+                }) {
+                    Icon(
+                        imageVector = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
+                        contentDescription = null
+                    )
+                }
             }
         }
     }
@@ -118,8 +141,9 @@ private fun CardRemedioPreview() {
         CardRemedio(
             medicamento = MedicamentoWithAplicacoes(
                 Medicamento(nome = "teste"),
-                aplicacoes = listOf(Aplicacao(data = "24/11/1996"))
-            )
+                aplicacoes = listOf(Aplicacao(data = "24/11/1996")),
+            ),
+            onDelete = {}
         )
     }
 }

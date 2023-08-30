@@ -23,4 +23,6 @@ interface MedicamentoRepository {
         aplicacoes: List<Aplicacao>
     )
 
+    fun getMedicamentosWithAplicacaoByPetId(petId: String): Flow<List<MedicamentoWithAplicacoes>>
+
 }

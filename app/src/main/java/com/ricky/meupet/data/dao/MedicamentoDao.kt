@@ -25,6 +25,10 @@ interface MedicamentoDao {
     suspend fun getMedicamentoWithAplicacaoById(medicamentoId: String): MedicamentoWithAplicacoes
 
     @Transaction
+    @Query("SELECT * FROM MEDICAMENTO WHERE petId = :petId")
+    fun getMedicamentosWithAplicacaoByPetId(petId: String): Flow<List<MedicamentoWithAplicacoes>>
+
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMedicamentoWithAplicacoes(
         medicamento: Medicamento,

@@ -6,6 +6,7 @@ sealed interface VacinaEvent {
     object OnDimissDialogData : VacinaEvent
     object OnDimissDialog : VacinaEvent
     object OnSaveVacina : VacinaEvent
+    data class OnDeleteVacina(val vacinaId: String) : VacinaEvent
     data class IsSelectProxVacina(val isProximaVacina: Boolean) : VacinaEvent
     data class OnChangeNome(val nome: String) : VacinaEvent
     data class OnChangeDescricao(val descricao: String) : VacinaEvent
