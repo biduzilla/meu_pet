@@ -1,6 +1,7 @@
 package com.ricky.meupet.data.repository
 
 import com.ricky.meupet.data.dao.MedicamentoDao
+import com.ricky.meupet.domain.model.Aplicacao
 import com.ricky.meupet.domain.model.Medicamento
 import com.ricky.meupet.domain.model.relationship.MedicamentoWithAplicacoes
 import com.ricky.meupet.domain.repository.MedicamentoRepository
@@ -28,5 +29,19 @@ class MedicamentoRepositoryImpl @Inject constructor(private val dao: Medicamento
 
     override suspend fun getMedicamentoWithAplicacaoById(medicamentoId: String): MedicamentoWithAplicacoes {
         return dao.getMedicamentoWithAplicacaoById(medicamentoId = medicamentoId)
+    }
+
+    override suspend fun insertMedicamentoWithAplicacoes(
+        medicamento: Medicamento,
+        aplicacoes: List<Aplicacao>
+    ) {
+        dao.insertMedicamentoWithAplicacoes(medicamento, aplicacoes)
+    }
+
+    override suspend fun updateMedicamentoWithAplicacoes(
+        medicamento: Medicamento,
+        aplicacoes: List<Aplicacao>
+    ) {
+        dao.updateMedicamentoWithAplicacoes(medicamento, aplicacoes)
     }
 }

@@ -1,5 +1,6 @@
 package com.ricky.meupet.domain.repository
 
+import com.ricky.meupet.domain.model.Aplicacao
 import com.ricky.meupet.domain.model.Medicamento
 import com.ricky.meupet.domain.model.relationship.MedicamentoWithAplicacoes
 import kotlinx.coroutines.flow.Flow
@@ -11,5 +12,15 @@ interface MedicamentoRepository {
     suspend fun updateMedicamento(medicamento: Medicamento)
     suspend fun deleteMedicamento(medicamento: Medicamento)
     suspend fun deleteMedicamentoById(medicamentoId: String)
-    suspend fun getMedicamentoWithAplicacaoById(medicamentoId:String): MedicamentoWithAplicacoes
+    suspend fun getMedicamentoWithAplicacaoById(medicamentoId: String): MedicamentoWithAplicacoes
+    suspend fun insertMedicamentoWithAplicacoes(
+        medicamento: Medicamento,
+        aplicacoes: List<Aplicacao>
+    )
+
+    suspend fun updateMedicamentoWithAplicacoes(
+        medicamento: Medicamento,
+        aplicacoes: List<Aplicacao>
+    )
+
 }
