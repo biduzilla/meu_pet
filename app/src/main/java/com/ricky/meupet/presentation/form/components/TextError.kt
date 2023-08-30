@@ -1,6 +1,7 @@
 package com.ricky.meupet.presentation.form.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,7 +18,8 @@ fun TextError(isErro: Boolean, modifier: Modifier = Modifier) {
             modifier = modifier.fillMaxWidth(),
             text = stringResource(id = R.string.campo_obrigatorio),
             color = ErrorLight,
-            textAlign = TextAlign.Start
+            textAlign = TextAlign.Start,
+            style = MaterialTheme.typography.labelMedium
         )
     }
 }

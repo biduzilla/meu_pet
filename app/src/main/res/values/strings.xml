@@ -3,6 +3,11 @@
     <string name="cadastrar_pet">Cadastrar Pet</string>
     <string name="meus_pets">Meus Pets</string>
     <string name="nome">Nome do Pet</string>
+    <string name="nome_vacina">Nome da Vacina</string>
+    <string name="descricao_vacina">Descrição da Vacina</string>
+    <string name="data_aplicacao">Quando foi aplicado?</string>
+    <string name="prox_aplicacao">Qual será a próxima aplicação?</string>
+    <string name="add_vacina">Adicionar Vacina</string>
     <string name="idade">Idade</string>
     <string name="nascimento">Data do Nascimento</string>
     <string name="raca">Raça</string>
@@ -10,8 +15,9 @@
     <string name="peso">Peso</string>
     <string name="tipo">Tipo</string>
     <string name="salvar_pet">Salvar</string>
+    <string name="salva">Salvar</string>
     <string name="campo_obrigatorio">Campo Obrigatório</string>
     <string name="voltar">Voltar</string>
     <string name="tipo_animal">Tipo de Animal</string>
-    <string name="escolher_data">Escolher data</string>
+    <string name="escolher_data">Escolher uma data</string>
 </resources>

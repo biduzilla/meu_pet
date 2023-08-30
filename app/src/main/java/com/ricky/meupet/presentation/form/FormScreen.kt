@@ -45,10 +45,8 @@ import coil.compose.rememberAsyncImagePainter
 import com.ricky.meupet.R
 import com.ricky.meupet.domain.model.tipos.AnimalGenero
 import com.ricky.meupet.domain.model.tipos.AnimalTipo
-import com.ricky.meupet.presentation.form.components.CustomTextField
 import com.ricky.meupet.presentation.form.components.DateDialiog
 import com.ricky.meupet.presentation.form.components.DropdownCompose
-import com.ricky.meupet.presentation.form.components.TextError
 import com.ricky.meupet.presentation.form.components.TextFieldCompose
 import com.ricky.meupet.ui.theme.MeuPetTheme
 
@@ -204,7 +202,8 @@ fun FormScreen(
             }
 
             if (state.isShowDataPicker) {
-                DateDialiog(onDimiss = { onEvent(FormEvent.ShowDataPicker) },
+                DateDialiog(isPassado = true,
+                    onDimiss = { onEvent(FormEvent.ShowDataPicker) },
                     onChangeDate = { onEvent(FormEvent.OnChangeDate(it)) })
             }
 
