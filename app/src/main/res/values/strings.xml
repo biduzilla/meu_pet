@@ -8,6 +8,11 @@
     <string name="data_aplicacao">Quando foi aplicado?</string>
     <string name="prox_aplicacao">Qual será a próxima aplicação?</string>
     <string name="add_vacina">Adicionar Vacina</string>
+    <string name="titulo_apagar_vacina">Deseja apagar registro da vacina?</string>
+    <string name="prox_vacina">Próximas vacinas</string>
+    <string name="vacina_aplicada">Vacinas Aplicadas</string>
+    <string name="apagar">Apagar</string>
+    <string name="cancelar">Cancelar</string>
     <string name="idade">Idade</string>
     <string name="nascimento">Data do Nascimento</string>
     <string name="raca">Raça</string>

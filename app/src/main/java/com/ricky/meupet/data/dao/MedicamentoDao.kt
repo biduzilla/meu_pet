@@ -64,11 +64,22 @@ interface MedicamentoDao {
     suspend fun deleteMedicamento(medicamento: Medicamento)
 
     @Query("DELETE FROM MEDICAMENTO WHERE id = :medicamentoId")
-    suspend fun deleteMedicamentoById(medicamentoId: String)
+    suspend fun deleteMedicamentoById(medicamentoId: String) {
+        val medicamentoWithAplicacoes = getMedicamentoWithAplicacaoById(medicamentoId)
+
+        medicamentoWithAplicacoes.aplicacoes.forEach {
+            deleteAplicacao(it)
+        }
+        deleteMedicamento(medicamentoWithAplicacoes.medicamento)
+    }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAplicacaos(aplicacoes: List<Aplicacao>)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateAplicacaos(aplicacoes: List<Aplicacao>)
+
+    @Delete
+    suspend fun deleteAplicacao(aplicacao: Aplicacao)
+
 }

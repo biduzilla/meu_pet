@@ -24,5 +24,8 @@ interface MedicamentoRepository {
     )
 
     fun getMedicamentosWithAplicacaoByPetId(petId: String): Flow<List<MedicamentoWithAplicacoes>>
+    suspend fun deleteAplicacao(aplicacao: Aplicacao)
+
+    fun getAllVacinasNaoAplicadas(petId: String): Flow<List<MedicamentoWithAplicacoes>>
 
 }

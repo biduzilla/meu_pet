@@ -1,5 +1,6 @@
 package com.ricky.meupet.presentation.vacinas
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +20,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.ricky.meupet.R
 import com.ricky.meupet.presentation.vacinas.components.CardRemedio
 import com.ricky.meupet.presentation.vacinas.components.DialogForm
 
@@ -53,19 +56,46 @@ fun VacinaScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            item {
+                Text(
+                    text = stringResource(id = R.string.prox_vacina),
+                    style = MaterialTheme.typography.headlineLarge,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Divider()
+            }
+            items(state.vacinasNaoAplicadas) { itens ->
+                Text(
+                    text = "${itens.medicamento.nome} - ${itens.aplicacoes[0].proximaAplicacao}",
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
+            item{
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = stringResource(id = R.string.vacina_aplicada),
+                    style = MaterialTheme.typography.headlineLarge,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            }
             items(state.medicamentosMesAno) { item ->
                 Text(
                     text = item.mesAno,
-                    style = MaterialTheme.typography.headlineLarge,
+                    style = MaterialTheme.typography.headlineMedium,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Divider()
                 Spacer(modifier = Modifier.height(8.dp))
                 item.medicamentos.forEach { medicamento ->
-                    CardRemedio(medicamento = medicamento) {
-                        onEvent(VacinaEvent.OnDeleteVacina(medicamento.medicamento.id))
-                    }
+                    CardRemedio(
+                        medicamento = medicamento,
+                        onRemoverMedicamento = {
+                            onEvent(VacinaEvent.OnDeleteVacina(medicamento.medicamento.id))
+                        })
                     Spacer(modifier = Modifier.height(16.dp))
                 }
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ricky.meupet.common.Constants
+import com.ricky.meupet.common.convertToDate
 import com.ricky.meupet.common.convertToString
 import com.ricky.meupet.common.formatarListaMesAno
 import com.ricky.meupet.domain.MedicamentosMesAno
@@ -17,6 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.Instant
 import java.util.Calendar
 import java.util.Date
 import java.util.UUID
@@ -35,6 +37,7 @@ class VacinaViewModel @Inject constructor(
         savedStateHandle.get<String>(Constants.PARAM_PET_ID)?.let { petIdRecuperado ->
             petId = petIdRecuperado
             recuperaMedicamentos(petId)
+            recuperaVacinasNaoAplicadas(petId)
         }
     }
 
@@ -49,26 +52,71 @@ class VacinaViewModel @Inject constructor(
                         aplicacao.data.substring(3)
                     }
 
+                val medicamentosAlreadyAdded = mutableSetOf<MedicamentoWithAplicacoes>()
+
                 for ((mesAno, vacinas) in vacinasPorMesAno) {
-                    val medicamentoWithAplicacoesList = vacinas.mapNotNull { aplicacao ->
-                        itens.find { it.aplicacoes.contains(aplicacao) }
+                    val medicamentoWithAplicacoesList = mutableListOf<MedicamentoWithAplicacoes>()
+
+                    for (aplicacao in vacinas) {
+                        val medicamento = itens.find { it.aplicacoes.contains(aplicacao) }
+                        medicamento?.let {
+                            if (!medicamentosAlreadyAdded.contains(it)) {
+                                medicamentoWithAplicacoesList.add(it)
+                                medicamentosAlreadyAdded.add(it)
+                            }
+                        }
                     }
 
-                    medicamentosMesAnoList.add(
-                        MedicamentosMesAno(
-                            medicamentos = medicamentoWithAplicacoesList,
-                            mesAno = mesAno
-                        )
-                    )
-                    _state.update {
-                        it.copy(
-                            medicamentosMesAno = formatarListaMesAno(medicamentosMesAnoList)
+                    if (medicamentoWithAplicacoesList.isNotEmpty()) {
+                        medicamentosMesAnoList.add(
+                            MedicamentosMesAno(
+                                medicamentos = medicamentoWithAplicacoesList,
+                                mesAno = mesAno
+                            )
                         )
                     }
+                }
+
+                _state.update {
+                    it.copy(
+                        medicamentosMesAno = formatarListaMesAno(medicamentosMesAnoList)
+                    )
                 }
             }
         }
     }
+
+    private fun isVacinaNaoAplicada(aplicacao: Aplicacao): Boolean {
+        return aplicacao.proximaAplicacao.convertToDate()?.after(Date.from(Instant.now())) ?: false
+    }
+
+    private fun filterVacinasNaoAplicadas(medicamentos: List<MedicamentoWithAplicacoes>): List<MedicamentoWithAplicacoes> {
+        return medicamentos.filter { it.medicamento.tipo == MedicamentoTipo.VACINA }
+            .filter { it.aplicacoes.isNotEmpty() && isVacinaNaoAplicada(it.aplicacoes[0]) }
+    }
+
+    private fun updateStateWithVacinasNaoAplicadas(lista: List<MedicamentoWithAplicacoes>) {
+        _state.update {
+            it.copy(
+                vacinasNaoAplicadas = lista
+            )
+        }
+    }
+
+    private fun recuperaVacinasNaoAplicadas(petId: String) {
+        viewModelScope.launch {
+            repository.getMedicamentosWithAplicacaoByPetId(petId).collect { medicamentos ->
+                val lista = filterVacinasNaoAplicadas(medicamentos)
+
+                val sortedMedicamentos = lista.sortedBy { medicamentoWithAplicacoes ->
+                    val proximaAplicacao = medicamentoWithAplicacoes.aplicacoes.firstOrNull()?.proximaAplicacao?.convertToDate()
+                    proximaAplicacao
+                }
+                updateStateWithVacinasNaoAplicadas(sortedMedicamentos.reversed())
+            }
+        }
+    }
+
 
     fun onEvent(event: VacinaEvent) {
         when (event) {
@@ -87,7 +135,7 @@ class VacinaViewModel @Inject constructor(
             is VacinaEvent.OnChangeDescricao -> {
                 _state.update {
                     it.copy(
-                        descricao = event.descricao.trim(),
+                        descricao = event.descricao,
                         onErrorDescricao = false
                     )
                 }
@@ -96,7 +144,7 @@ class VacinaViewModel @Inject constructor(
             is VacinaEvent.OnChangeNome -> {
                 _state.update {
                     it.copy(
-                        nome = event.nome.trim(),
+                        nome = event.nome,
                         onErrorNome = false
                     )
                 }
@@ -147,7 +195,7 @@ class VacinaViewModel @Inject constructor(
             }
 
             VacinaEvent.OnSaveVacina -> {
-                if (_state.value.nome.isBlank()) {
+                if (_state.value.nome.trim().isBlank()) {
                     _state.update {
                         it.copy(
                             onErrorNome = true
@@ -155,7 +203,7 @@ class VacinaViewModel @Inject constructor(
                     }
                     return
                 }
-                if (_state.value.descricao.isBlank()) {
+                if (_state.value.descricao.trim().isBlank()) {
                     _state.update {
                         it.copy(
                             onErrorDescricao = true
@@ -217,7 +265,9 @@ class VacinaViewModel @Inject constructor(
             }
 
             is VacinaEvent.OnDeleteVacina -> {
-
+                viewModelScope.launch {
+                    repository.deleteMedicamentoById(event.vacinaId)
+                }
             }
         }
     }
