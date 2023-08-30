@@ -1,8 +1,8 @@
 package com.ricky.meupet.data.repository
 
-import com.ricky.meupet.data.AppDatabase
 import com.ricky.meupet.data.dao.PetDao
 import com.ricky.meupet.domain.model.Pet
+import com.ricky.meupet.domain.model.relationship.PetWithMedicamentos
 import com.ricky.meupet.domain.repository.PetRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -19,4 +19,7 @@ class PetRepositoryImpl @Inject constructor(private val dao: PetDao) : PetReposi
     override suspend fun deletePet(pet: Pet) = dao.deletePet(pet)
 
     override suspend fun deleteMedicamentoById(petId: String) = dao.deleteMedicamentoById(petId)
+    override suspend fun getPetWithMedicamentoById(petId: String): PetWithMedicamentos {
+        return dao.getPetWithMedicamentoById(petId = petId)
+    }
 }

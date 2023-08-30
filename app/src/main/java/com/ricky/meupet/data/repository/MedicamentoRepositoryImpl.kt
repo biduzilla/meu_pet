@@ -2,6 +2,7 @@ package com.ricky.meupet.data.repository
 
 import com.ricky.meupet.data.dao.MedicamentoDao
 import com.ricky.meupet.domain.model.Medicamento
+import com.ricky.meupet.domain.model.relationship.MedicamentoWithAplicacoes
 import com.ricky.meupet.domain.repository.MedicamentoRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -24,4 +25,8 @@ class MedicamentoRepositoryImpl @Inject constructor(private val dao: Medicamento
 
     override suspend fun deleteMedicamentoById(medicamentoId: String) =
         dao.deleteMedicamentoById(medicamentoId)
+
+    override suspend fun getMedicamentoWithAplicacaoById(medicamentoId: String): MedicamentoWithAplicacoes {
+        return dao.getMedicamentoWithAplicacaoById(medicamentoId = medicamentoId)
+    }
 }
