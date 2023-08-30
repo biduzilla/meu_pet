@@ -1,15 +1,15 @@
 package com.ricky.meupet.data.dao
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Update
 import com.ricky.meupet.domain.model.Aplicacao
-import com.ricky.meupet.domain.model.relationship.MedicamentoWithAplicacoes
 import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface AplicacaoDao {
     @Query("SELECT * FROM Aplicacao  WHERE medicamentoId = :medicamentoId")
     fun getAllAplicacoesByMedicamentoId(medicamentoId: String): Flow<List<Aplicacao>>

@@ -49,6 +49,7 @@ import com.ricky.meupet.presentation.form.components.CustomTextField
 import com.ricky.meupet.presentation.form.components.DateDialiog
 import com.ricky.meupet.presentation.form.components.DropdownCompose
 import com.ricky.meupet.presentation.form.components.TextError
+import com.ricky.meupet.presentation.form.components.TextFieldCompose
 import com.ricky.meupet.ui.theme.MeuPetTheme
 
 
@@ -146,26 +147,45 @@ fun FormScreen(
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            TextError(isErro = state.onErrorNome)
-            CustomTextField(modifier = Modifier.fillMaxWidth(),
+            TextFieldCompose(
                 value = state.nome,
+                isError = state.onErrorNome,
                 label = R.string.nome,
-                onChange = { onEvent(FormEvent.OnChangeNome(it)) })
+                onChange = { onEvent(FormEvent.OnChangeNome(it)) }
+            )
+//            TextError(isErro = state.onErrorNome)
+//            CustomTextField(modifier = Modifier.fillMaxWidth(),
+//                value = state.nome,
+//                label = R.string.nome,
+//                onChange = { onEvent(FormEvent.OnChangeNome(it)) })
 
             Spacer(modifier = Modifier.height(16.dp))
-            TextError(isErro = state.onErrorRaca)
-            CustomTextField(modifier = Modifier.fillMaxWidth(),
+            TextFieldCompose(
                 value = state.raca,
                 label = R.string.raca,
-                onChange = { onEvent(FormEvent.OnChangeRaca(it)) })
+                onChange = { onEvent(FormEvent.OnChangeRaca(it)) },
+                isError = state.onErrorRaca
+            )
+//            TextError(isErro = state.onErrorRaca)
+//            CustomTextField(modifier = Modifier.fillMaxWidth(),
+//                value = state.raca,
+//                label = R.string.raca,
+//                onChange = { onEvent(FormEvent.OnChangeRaca(it)) })
 
             Spacer(modifier = Modifier.height(16.dp))
-            TextError(isErro = state.onErrorPeso)
-            CustomTextField(modifier = Modifier.fillMaxWidth(),
+            TextFieldCompose(
                 value = state.peso,
                 label = R.string.peso,
                 keyboardType = KeyboardType.Decimal,
-                onChange = { onEvent(FormEvent.OnChangePeso(it)) })
+                onChange = { onEvent(FormEvent.OnChangePeso(it)) },
+                isError = state.onErrorPeso
+            )
+//            TextError(isErro = state.onErrorPeso)
+//            CustomTextField(modifier = Modifier.fillMaxWidth(),
+//                value = state.peso,
+//                label = R.string.peso,
+//                keyboardType = KeyboardType.Decimal,
+//                onChange = { onEvent(FormEvent.OnChangePeso(it)) })
 
             Spacer(modifier = Modifier.height(16.dp))
             Card(

@@ -11,10 +11,10 @@ import com.ricky.meupet.ui.theme.ErrorLight
 
 
 @Composable
-fun TextError(isErro: Boolean) {
+fun TextError(isErro: Boolean, modifier: Modifier = Modifier) {
     if (isErro) {
         Text(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
             text = stringResource(id = R.string.campo_obrigatorio),
             color = ErrorLight,
             textAlign = TextAlign.Start
