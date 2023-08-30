@@ -1,10 +1,13 @@
 package com.ricky.meupet.presentation.vacinas
 
 import androidx.lifecycle.ViewModel
+import com.ricky.meupet.common.convertToString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.util.Calendar
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,7 +18,12 @@ class VacinaViewModel @Inject constructor() : ViewModel() {
     fun onEvent(event: VacinaEvent) {
         when (event) {
             is VacinaEvent.OnChangeData -> {
-
+                val calendar = Calendar.getInstance()
+                calendar.time = Date(event.data)
+                calendar.add(Calendar.DAY_OF_YEAR, 1)
+                _state.update {
+                    it.copy(dataAplicacao = calendar.time.convertToString())
+                }
             }
 
             is VacinaEvent.OnChangeDescricao -> {
@@ -37,7 +45,12 @@ class VacinaViewModel @Inject constructor() : ViewModel() {
             }
 
             is VacinaEvent.OnChangeProxData -> {
-
+                val calendar = Calendar.getInstance()
+                calendar.time = Date(event.proxData)
+                calendar.add(Calendar.DAY_OF_YEAR, 1)
+                _state.update {
+                    it.copy(dataProxAplicacao = calendar.time.convertToString())
+                }
             }
 
             VacinaEvent.OnDimissDialog -> {
@@ -68,6 +81,18 @@ class VacinaViewModel @Inject constructor() : ViewModel() {
                 _state.update {
                     it.copy(
                         isShowDialogData = true,
+                    )
+                }
+            }
+
+            VacinaEvent.OnSaveVacina -> {
+
+            }
+
+            is VacinaEvent.IsSelectProxVacina -> {
+                _state.update {
+                    it.copy(
+                        isProxVacina = event.isProximaVacina
                     )
                 }
             }

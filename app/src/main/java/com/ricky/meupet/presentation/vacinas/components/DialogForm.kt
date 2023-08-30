@@ -19,7 +19,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.ricky.meupet.R
-import com.ricky.meupet.presentation.form.FormEvent
 import com.ricky.meupet.presentation.form.components.DateDialiog
 import com.ricky.meupet.presentation.form.components.TextFieldCompose
 import com.ricky.meupet.presentation.vacinas.VacinaState
@@ -37,20 +36,24 @@ fun DialogForm(
     onDataAplicacao: (Long) -> Unit,
     onDataProxAplicacao: (Long) -> Unit,
     onSave: () -> Unit,
+    isProxVacina: (Boolean) -> Unit
 ) {
-    if (state.isShowDialogData){
-        DateDialiog(isPassado = true,
+    if (state.isShowDialogData) {
+        DateDialiog(isPassado = !state.isProxVacina,
             onDimiss = onDimissDataDialiog,
-            onChangeDate = {data->
-                if (state.isProxVacina){
+            onChangeDate = { data ->
+                if (state.isProxVacina) {
                     onDataProxAplicacao(data)
-                }else{
+                } else {
                     onDataAplicacao(data)
                 }
             })
     }
     Dialog(onDismissRequest = onDimiss) {
-        Card(shape = RoundedCornerShape(20.dp)) {
+        Card(
+            shape = RoundedCornerShape(20.dp),
+            modifier = modifier
+        ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -84,7 +87,10 @@ fun DialogForm(
                 Card(
                     shape = RoundedCornerShape(10.dp),
                     elevation = CardDefaults.cardElevation(10.dp),
-                    onClick = showDataDialog,
+                    onClick = {
+                        showDataDialog()
+                        isProxVacina(false)
+                    },
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
                 ) {
                     Text(
@@ -101,11 +107,14 @@ fun DialogForm(
                 Card(
                     shape = RoundedCornerShape(10.dp),
                     elevation = CardDefaults.cardElevation(10.dp),
-                    onClick = showDataDialog,
+                    onClick = {
+                        showDataDialog()
+                        isProxVacina(true)
+                    },
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
                 ) {
                     Text(
-                        text = state.dataAplicacao.ifBlank { stringResource(id = R.string.escolher_data) },
+                        text = state.dataProxAplicacao.ifBlank { stringResource(id = R.string.escolher_data) },
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(16.dp)
                     )

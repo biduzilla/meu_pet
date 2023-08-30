@@ -38,10 +38,11 @@ fun VacinaScreen(
                 onDimiss = { onEvent(VacinaEvent.OnDimissDialog) },
                 showDataDialog = { onEvent(VacinaEvent.OnShowDialogData) },
                 onDataAplicacao = { onEvent(VacinaEvent.OnChangeData(it)) },
-                onDataProxAplicacao = { onEvent(VacinaEvent.OnChangeProxData(it)) }
-            ) {
-
-            }
+                onDataProxAplicacao = { onEvent(VacinaEvent.OnChangeProxData(it)) },
+                onDimissDataDialiog = { onEvent(VacinaEvent.OnDimissDialogData) },
+                onSave = { onEvent(VacinaEvent.OnSaveVacina) },
+                isProxVacina = { onEvent(VacinaEvent.IsSelectProxVacina(it)) }
+            )
         }
         LazyColumn(modifier = Modifier.padding(paddingValues)) {
             items(state.medicamentosMesAno) { item ->
