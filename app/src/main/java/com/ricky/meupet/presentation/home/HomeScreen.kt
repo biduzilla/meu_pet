@@ -38,7 +38,7 @@ fun HomeScrenn(
                 })
         }) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
-            BottomNavigation(navController = navControllerBottom)
+            BottomNavigation(navController = navControllerBottom, petId = state.pet.id)
         }
     }
 

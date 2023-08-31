@@ -4,8 +4,10 @@ import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
 import com.ricky.meupet.domain.MedicamentosMesAno
+import com.ricky.meupet.domain.model.Aplicacao
 import java.io.File
 import java.text.DateFormatSymbols
+import java.time.Instant
 import java.time.LocalDate
 import java.time.Period
 import java.time.ZoneId
@@ -65,5 +67,9 @@ fun capitalizeFirstLetter(input: String): String {
     if (input.isEmpty()) {
         return input
     }
-    return input.substring(0, 1).toUpperCase() + input.substring(1)
+    return input.substring(0, 1).uppercase(Locale.ROOT) + input.substring(1)
+}
+
+fun isVacinaNaoAplicada(aplicacao: Aplicacao): Boolean {
+    return aplicacao.proximaAplicacao.convertToDate()?.after(Date.from(Instant.now())) ?: true
 }

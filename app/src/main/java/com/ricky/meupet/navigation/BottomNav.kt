@@ -1,14 +1,15 @@
 package com.ricky.meupet.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.ricky.meupet.presentation.config.ConfigScreen
-import com.ricky.meupet.presentation.config.ConfigViewModel
+import androidx.navigation.navArgument
 import com.ricky.meupet.presentation.eventos.EventosScreen
 import com.ricky.meupet.presentation.eventos.EventosViewModel
 import com.ricky.meupet.presentation.medicamentos.MedicamentosScreen
@@ -19,26 +20,33 @@ import com.ricky.meupet.presentation.vermifugacao.VermifucacaoViewModel
 import com.ricky.meupet.presentation.vermifugacao.VermifugacaoScreen
 
 @Composable
-fun BottomNavigation(navController: NavHostController) {
+fun BottomNavigation(navController: NavHostController, petId: String) {
     NavHost(
         navController = navController,
-        startDestination = BottomScreens.EventosScreens.route+ "/{petId}"
+        startDestination = BottomScreens.EventosScreens.route
     ) {
-        composable(BottomScreens.EventosScreens.route + "/{petId}") {
+//        composable(BottomScreens.EventosScreens.route + "/{petId}") {
+//            val viewModel = hiltViewModel<EventosViewModel>()
+//            val state by viewModel.state.collectAsState()
+//            EventosScreen(
+//                state = state,
+//                onEvent = viewModel::onEvent,
+//            )
+//        }
+        composable(BottomScreens.EventosScreens.route) {
             val viewModel = hiltViewModel<EventosViewModel>()
             val state by viewModel.state.collectAsState()
-            EventosScreen(state = state, onEvent = viewModel::onEvent)
+            EventosScreen(
+                state = state,
+                onEvent = viewModel::onEvent,
+                petId = petId
+            )
         }
         composable(BottomScreens.VacinasScreens.route + "/{petId}") {
             val viewModel = hiltViewModel<VacinaViewModel>()
             val state by viewModel.state.collectAsState()
             VacinaScreen(state = state, onEvent = viewModel::onEvent)
         }
-//        composable(BottomScreens.ConfigScreens.route + "/{petId}") {
-//            val viewModel = hiltViewModel<ConfigViewModel>()
-//            val state by viewModel.state.collectAsState()
-//            ConfigScreen(state = state, onEvent = viewModel::onEvent)
-//        }
         composable(BottomScreens.MedicamentosScreens.route + "/{petId}") {
             val viewModel = hiltViewModel<MedicamentosViewModel>()
             val state by viewModel.state.collectAsState()

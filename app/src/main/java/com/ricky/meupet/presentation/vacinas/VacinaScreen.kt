@@ -1,8 +1,6 @@
 package com.ricky.meupet.presentation.vacinas
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,9 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ricky.meupet.R
@@ -52,15 +48,14 @@ fun VacinaScreen(
         }
         LazyColumn(
             modifier = Modifier
-                .padding(paddingValues)
-                .padding(16.dp),
+                .padding(16.dp)
+                .padding(paddingValues),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
                 Text(
                     text = stringResource(id = R.string.prox_vacina),
                     style = MaterialTheme.typography.headlineLarge,
-                    modifier = Modifier.padding(horizontal = 16.dp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Divider()
@@ -72,12 +67,11 @@ fun VacinaScreen(
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
             }
-            item{
+            item {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = stringResource(id = R.string.vacina_aplicada),
                     style = MaterialTheme.typography.headlineLarge,
-                    modifier = Modifier.padding(horizontal = 16.dp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }

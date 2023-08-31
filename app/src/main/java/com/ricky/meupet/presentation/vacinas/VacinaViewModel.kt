@@ -7,6 +7,7 @@ import com.ricky.meupet.common.Constants
 import com.ricky.meupet.common.convertToDate
 import com.ricky.meupet.common.convertToString
 import com.ricky.meupet.common.formatarListaMesAno
+import com.ricky.meupet.common.isVacinaNaoAplicada
 import com.ricky.meupet.domain.MedicamentosMesAno
 import com.ricky.meupet.domain.model.Aplicacao
 import com.ricky.meupet.domain.model.Medicamento
@@ -86,9 +87,7 @@ class VacinaViewModel @Inject constructor(
         }
     }
 
-    private fun isVacinaNaoAplicada(aplicacao: Aplicacao): Boolean {
-        return aplicacao.proximaAplicacao.convertToDate()?.after(Date.from(Instant.now())) ?: false
-    }
+
 
     private fun filterVacinasNaoAplicadas(medicamentos: List<MedicamentoWithAplicacoes>): List<MedicamentoWithAplicacoes> {
         return medicamentos.filter { it.medicamento.tipo == MedicamentoTipo.VACINA }
@@ -112,7 +111,7 @@ class VacinaViewModel @Inject constructor(
                     val proximaAplicacao = medicamentoWithAplicacoes.aplicacoes.firstOrNull()?.proximaAplicacao?.convertToDate()
                     proximaAplicacao
                 }
-                updateStateWithVacinasNaoAplicadas(sortedMedicamentos.reversed())
+                updateStateWithVacinasNaoAplicadas(sortedMedicamentos)
             }
         }
     }
@@ -241,10 +240,6 @@ class VacinaViewModel @Inject constructor(
                         data = _state.value.dataAplicacao,
                         proximaAplicacao = _state.value.dataProxAplicacao,
                         aplicado = true
-                    ), Aplicacao(
-                        id = UUID.randomUUID().toString(),
-                        data = _state.value.dataProxAplicacao,
-                        aplicado = false
                     )
                 )
                 viewModelScope.launch {

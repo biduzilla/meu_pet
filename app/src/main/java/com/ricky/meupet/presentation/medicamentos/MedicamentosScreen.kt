@@ -15,6 +15,6 @@ fun MedicamentosScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "eventos")
+        Text(text = state.it)
     }
 }

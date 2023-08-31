@@ -1,3 +1,7 @@
 package com.ricky.meupet.presentation.eventos
 
-data class EventosState(val it:String = "")
+import com.ricky.meupet.domain.MedicamentosParaSerAplicados
+
+data class EventosState(
+    val medicamentos: List<MedicamentosParaSerAplicados> = emptyList()
+)
