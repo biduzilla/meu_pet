@@ -32,31 +32,31 @@ class FormViewModel @Inject constructor(private val repository: PetRepository) :
     fun onEvent(event: FormEvent) {
         when (event) {
             FormEvent.AddPet -> {
-                if (_state.value.nome.isBlank()) {
+                if (_state.value.nome.trim().isBlank()) {
                     _state.value = _state.value.copy(
                         onErrorNome = true
                     )
                     return
                 }
-                if (_state.value.raca.isBlank()) {
+                if (_state.value.raca.trim().isBlank()) {
                     _state.value = _state.value.copy(
                         onErrorRaca = true
                     )
                     return
                 }
-                if (_state.value.peso.isBlank()) {
+                if (_state.value.peso.trim().isBlank()) {
                     _state.value = _state.value.copy(
                         onErrorPeso = true
                     )
                     return
                 }
-                if (_state.value.nascimento.isBlank()) {
+                if (_state.value.nascimento.trim().isBlank()) {
                     _state.value = _state.value.copy(
                         onErrorNascimento = true
                     )
                     return
                 }
-                if (_state.value.pathFoto.isBlank()) {
+                if (_state.value.pathFoto.trim().isBlank()) {
                     _state.value = _state.value.copy(
                         onErrorPhoto = true
                     )
@@ -124,7 +124,7 @@ class FormViewModel @Inject constructor(private val repository: PetRepository) :
 
             is FormEvent.OnChangeNome -> {
                 _state.value = _state.value.copy(
-                    nome = event.nome.trim(),
+                    nome = event.nome,
                     onErrorNome = false
                 )
             }
@@ -139,7 +139,7 @@ class FormViewModel @Inject constructor(private val repository: PetRepository) :
 
             is FormEvent.OnChangeRaca -> {
                 _state.value = _state.value.copy(
-                    raca = event.raca.trim(),
+                    raca = event.raca,
                     onErrorRaca = false
                 )
 

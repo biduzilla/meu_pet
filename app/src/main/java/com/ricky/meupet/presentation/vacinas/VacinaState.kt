@@ -1,11 +1,12 @@
 package com.ricky.meupet.presentation.vacinas
 
 import com.ricky.meupet.domain.MedicamentosMesAno
+import com.ricky.meupet.domain.MedicamentosParaSerAplicados
 import com.ricky.meupet.domain.model.relationship.MedicamentoWithAplicacoes
 
 data class VacinaState(
     val medicamentosMesAno: List<MedicamentosMesAno> = emptyList(),
-    val vacinasNaoAplicadas:List<MedicamentoWithAplicacoes> = emptyList(),
+    val vacinasNaoAplicadas:List<MedicamentosParaSerAplicados> = emptyList(),
     val isShowDialogForm: Boolean = false,
     val isShowDialogData: Boolean = false,
     val isProxVacina: Boolean = false,

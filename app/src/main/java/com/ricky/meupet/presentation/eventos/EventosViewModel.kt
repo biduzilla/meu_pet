@@ -8,6 +8,7 @@ import com.ricky.meupet.common.Constants
 import com.ricky.meupet.common.convertToDate
 import com.ricky.meupet.common.convertToString
 import com.ricky.meupet.common.isVacinaNaoAplicada
+import com.ricky.meupet.common.medicamentoToMedicamentoEventos
 import com.ricky.meupet.domain.MedicamentosParaSerAplicados
 import com.ricky.meupet.domain.model.relationship.MedicamentoWithAplicacoes
 import com.ricky.meupet.domain.repository.MedicamentoRepository
@@ -37,47 +38,16 @@ class EventosViewModel @Inject constructor(
     private fun recuperaMedicamentosFututos(petId: String) {
         viewModelScope.launch {
             repository.getMedicamentosWithAplicacaoByPetId(petId).collect { list ->
-                try {
-                    _state.update {
-                        it.copy(
-                            medicamentos = medicamentoToMedicamentoEventos(list)
-                        )
-                    }
-                } catch (e: Exception) {
-                    println(e.stackTrace)
-                    Log.i("infoteste", "recuperaMedicamentosFututos: ${e.suppressedExceptions}", )
-                    Log.i("infoteste", "recuperaMedicamentosFututos: ${e.message}", )
-                    Log.i("infoteste", "recuperaMedicamentosFututos: ${e.stackTrace}", )
-
+                _state.update {
+                    it.copy(
+                        medicamentos = medicamentoToMedicamentoEventos(list)
+                    )
                 }
-
             }
         }
     }
 
-    private fun medicamentoToMedicamentoEventos(medicamentos: List<MedicamentoWithAplicacoes>): List<MedicamentosParaSerAplicados> {
-        return medicamentos
-            .flatMap { medicamento ->
-                medicamento.aplicacoes.filter(::isVacinaNaoAplicada)
-                    .mapNotNull { aplicacao ->
-                        val dataAplicacao = aplicacao.proximaAplicacao
-                        if (dataAplicacao.isNotBlank()) {
-                            val data = dataAplicacao.convertToDate()
-                            if (data != null) {
-                                MedicamentosParaSerAplicados(
-                                    medicamento = medicamento.medicamento,
-                                    dataAplicacao = data.convertToString()
-                                )
-                            } else {
-                                null
-                            }
-                        } else {
-                            null
-                        }
-                    }
-            }
-            .sortedBy { it.dataAplicacao }
-    }
+
 
 
     fun onEvent(event: EventosEvent) {

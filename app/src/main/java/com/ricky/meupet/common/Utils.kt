@@ -4,7 +4,9 @@ import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
 import com.ricky.meupet.domain.MedicamentosMesAno
+import com.ricky.meupet.domain.MedicamentosParaSerAplicados
 import com.ricky.meupet.domain.model.Aplicacao
+import com.ricky.meupet.domain.model.relationship.MedicamentoWithAplicacoes
 import java.io.File
 import java.text.DateFormatSymbols
 import java.time.Instant
@@ -72,4 +74,28 @@ fun capitalizeFirstLetter(input: String): String {
 
 fun isVacinaNaoAplicada(aplicacao: Aplicacao): Boolean {
     return aplicacao.proximaAplicacao.convertToDate()?.after(Date.from(Instant.now())) ?: true
+}
+
+fun medicamentoToMedicamentoEventos(medicamentos: List<MedicamentoWithAplicacoes>): List<MedicamentosParaSerAplicados> {
+    return medicamentos
+        .flatMap { medicamento ->
+            medicamento.aplicacoes.filter(::isVacinaNaoAplicada)
+                .mapNotNull { aplicacao ->
+                    val dataAplicacao = aplicacao.proximaAplicacao
+                    if (dataAplicacao.isNotBlank()) {
+                        val data = dataAplicacao.convertToDate()
+                        if (data != null) {
+                            MedicamentosParaSerAplicados(
+                                medicamento = medicamento.medicamento,
+                                dataAplicacao = data.convertToString()
+                            )
+                        } else {
+                            null
+                        }
+                    } else {
+                        null
+                    }
+                }
+        }
+        .sortedBy { it.dataAplicacao }
 }

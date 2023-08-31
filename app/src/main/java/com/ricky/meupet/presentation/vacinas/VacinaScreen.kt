@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ricky.meupet.R
+import com.ricky.meupet.presentation.eventos.components.EventoCompose
 import com.ricky.meupet.presentation.vacinas.components.CardRemedio
 import com.ricky.meupet.presentation.vacinas.components.DialogForm
 
@@ -50,7 +51,6 @@ fun VacinaScreen(
             modifier = Modifier
                 .padding(16.dp)
                 .padding(paddingValues),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
                 Text(
@@ -59,13 +59,16 @@ fun VacinaScreen(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Divider()
+                Spacer(modifier = Modifier.height(8.dp))
             }
-            items(state.vacinasNaoAplicadas) { itens ->
-                Text(
-                    text = "${itens.medicamento.nome} - ${itens.aplicacoes[0].proximaAplicacao}",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
+            items(state.vacinasNaoAplicadas) { item ->
+
+                EventoCompose(evento = item)
+//                Text(
+//                    text = "${itens.medicamento.nome} - ${itens.aplicacoes[0].proximaAplicacao}",
+//                    style = MaterialTheme.typography.bodyLarge,
+//                    modifier = Modifier.padding(horizontal = 16.dp)
+//                )
             }
             item {
                 Spacer(modifier = Modifier.height(16.dp))

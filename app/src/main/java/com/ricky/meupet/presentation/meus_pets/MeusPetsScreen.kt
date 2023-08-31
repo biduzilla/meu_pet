@@ -41,6 +41,9 @@ fun MeusPetsScreen(
     navController: NavController,
 ) {
     val context = LocalContext.current
+//    state.pets.forEach {
+//        deleteFileAtPath(it.pathFoto)
+//    }
 
     Scaffold(topBar = {
         TopAppBar(

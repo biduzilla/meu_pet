@@ -8,6 +8,7 @@ import com.ricky.meupet.common.convertToDate
 import com.ricky.meupet.common.convertToString
 import com.ricky.meupet.common.formatarListaMesAno
 import com.ricky.meupet.common.isVacinaNaoAplicada
+import com.ricky.meupet.common.medicamentoToMedicamentoEventos
 import com.ricky.meupet.domain.MedicamentosMesAno
 import com.ricky.meupet.domain.model.Aplicacao
 import com.ricky.meupet.domain.model.Medicamento
@@ -88,7 +89,6 @@ class VacinaViewModel @Inject constructor(
     }
 
 
-
     private fun filterVacinasNaoAplicadas(medicamentos: List<MedicamentoWithAplicacoes>): List<MedicamentoWithAplicacoes> {
         return medicamentos.filter { it.medicamento.tipo == MedicamentoTipo.VACINA }
             .filter { it.aplicacoes.isNotEmpty() && isVacinaNaoAplicada(it.aplicacoes[0]) }
@@ -97,7 +97,7 @@ class VacinaViewModel @Inject constructor(
     private fun updateStateWithVacinasNaoAplicadas(lista: List<MedicamentoWithAplicacoes>) {
         _state.update {
             it.copy(
-                vacinasNaoAplicadas = lista
+                vacinasNaoAplicadas = medicamentoToMedicamentoEventos(lista)
             )
         }
     }
@@ -108,7 +108,8 @@ class VacinaViewModel @Inject constructor(
                 val lista = filterVacinasNaoAplicadas(medicamentos)
 
                 val sortedMedicamentos = lista.sortedBy { medicamentoWithAplicacoes ->
-                    val proximaAplicacao = medicamentoWithAplicacoes.aplicacoes.firstOrNull()?.proximaAplicacao?.convertToDate()
+                    val proximaAplicacao =
+                        medicamentoWithAplicacoes.aplicacoes.firstOrNull()?.proximaAplicacao?.convertToDate()
                     proximaAplicacao
                 }
                 updateStateWithVacinasNaoAplicadas(sortedMedicamentos)
