@@ -6,21 +6,25 @@ import androidx.lifecycle.viewModelScope
 import com.ricky.meupet.common.Constants
 import com.ricky.meupet.common.convertToDate
 import com.ricky.meupet.common.convertToString
+import com.ricky.meupet.common.dataParaLongEspecifica
 import com.ricky.meupet.common.formatarListaMesAno
 import com.ricky.meupet.common.isVacinaNaoAplicada
 import com.ricky.meupet.common.medicamentoToMedicamentoEventos
+import com.ricky.meupet.common.notificacao.NotificationService
 import com.ricky.meupet.domain.MedicamentosMesAno
+import com.ricky.meupet.domain.NotificacaoInfo
 import com.ricky.meupet.domain.model.Aplicacao
 import com.ricky.meupet.domain.model.Medicamento
+import com.ricky.meupet.domain.model.Pet
 import com.ricky.meupet.domain.model.relationship.MedicamentoWithAplicacoes
 import com.ricky.meupet.domain.model.tipos.MedicamentoTipo
 import com.ricky.meupet.domain.repository.MedicamentoRepository
+import com.ricky.meupet.domain.repository.PetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import java.time.Instant
 import java.util.Calendar
 import java.util.Date
 import java.util.UUID
@@ -29,17 +33,25 @@ import javax.inject.Inject
 @HiltViewModel
 class VacinaViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val repository: MedicamentoRepository
+    private val notificationService: NotificationService,
+    private val repository: MedicamentoRepository,
+    private val petRepository: PetRepository,
 ) : ViewModel() {
     private val _state = MutableStateFlow(VacinaState())
     val state = _state.asStateFlow()
     lateinit var petId: String
+    var pet = Pet()
+
 
     init {
         savedStateHandle.get<String>(Constants.PARAM_PET_ID)?.let { petIdRecuperado ->
             petId = petIdRecuperado
             recuperaMedicamentos(petId)
             recuperaVacinasNaoAplicadas(petId)
+
+            viewModelScope.launch {
+                pet = petRepository.getPetById(petId = petIdRecuperado)
+            }
         }
     }
 
@@ -115,6 +127,29 @@ class VacinaViewModel @Inject constructor(
                 updateStateWithVacinasNaoAplicadas(sortedMedicamentos)
             }
         }
+    }
+
+    private fun marcaAlertaVacina(
+        title: String,
+        nome: String,
+        data: Date?
+    ) {
+        val not = NotificacaoInfo(
+            "Revacinar - $title",
+            "Faltam 7 dias para revacinação do(a) $nome da vacina $title",
+            -7
+        )
+        data?.dataParaLongEspecifica(
+            dia = not.diasAntes,
+            hora = 8
+        ).apply {
+            notificationService.scheduleNotification(
+                date = this!!,
+                title = not.titulo,
+                message = not.mensagem
+            )
+        }
+
     }
 
 
@@ -194,7 +229,7 @@ class VacinaViewModel @Inject constructor(
                 }
             }
 
-            VacinaEvent.OnSaveVacina -> {
+            is VacinaEvent.OnSaveVacina -> {
                 if (_state.value.nome.trim().isBlank()) {
                     _state.update {
                         it.copy(
@@ -243,13 +278,21 @@ class VacinaViewModel @Inject constructor(
                         aplicado = true
                     )
                 )
-                viewModelScope.launch {
-                    repository.insertMedicamentoWithAplicacoes(
-                        medicamento = medicamento,
-                        aplicacoes = aplicacoes
-                    )
-                    _state.value = VacinaState()
-                }
+                marcaAlertaVacina(
+                    title = _state.value.nome,
+                    data = _state.value.dataProxAplicacao.convertToDate(),
+                    nome = pet.nome
+                )
+//                viewModelScope.launch {
+//                    repository.insertMedicamentoWithAplicacoes(
+//                        medicamento = medicamento,
+//                        aplicacoes = aplicacoes
+//                    )
+//
+//                    _state.value = VacinaState()
+//                }
+
+
             }
 
             is VacinaEvent.IsSelectProxVacina -> {

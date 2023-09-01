@@ -21,7 +21,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.ricky.meupet.R
-import com.ricky.meupet.common.notificacao.NotificationService
 import com.ricky.meupet.navigation.Screens
 import com.ricky.meupet.presentation.meus_pets.components.CardAddPet
 import com.ricky.meupet.ui.theme.MeuPetTheme
@@ -38,7 +37,19 @@ fun MeusPetsScreen(
 //        deleteFileAtPath(it.pathFoto)
 //    }
 
-    NotificationService(context, "Teste Pet", "Bubu Linda").basicNotification()
+//    val dataSty = "02/09/2023"
+//    val data = dataSty.convertToDate()
+//    val calendar = Calendar.getInstance()
+//
+//    if (data != null) {
+//        calendar.time = data
+//        calendar.add(Calendar.DAY_OF_MONTH, -1)
+//        val dataNoFuturo: Long = calendar.timeInMillis
+//        NotificationService(context, "Teste Pet", "Bubu Linda").scheduleNotification(dataNoFuturo)
+//
+//        Log.i("infoteste", "MeusPetsScreen: ${Date(dataNoFuturo).convertToStringPrecisa()}")
+//    }
+
 
     Scaffold(topBar = {
         TopAppBar(
@@ -78,6 +89,7 @@ fun MeusPetsScreen(
     }
 
 }
+
 
 fun deleteFileAtPath(filePath: String): Boolean {
     val fileToDelete = File(filePath)

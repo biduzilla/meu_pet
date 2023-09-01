@@ -13,6 +13,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.Period
 import java.time.ZoneId
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -99,3 +100,5 @@ fun medicamentoToMedicamentoEventos(medicamentos: List<MedicamentoWithAplicacoes
         }
         .sortedBy { it.dataAplicacao }
 }
+
+

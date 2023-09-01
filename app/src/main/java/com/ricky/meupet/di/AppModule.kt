@@ -3,6 +3,7 @@ package com.ricky.meupet.di
 import android.content.Context
 import androidx.room.Room
 import com.ricky.meupet.common.DataStoreUtil
+import com.ricky.meupet.common.notificacao.NotificationService
 import com.ricky.meupet.data.AppDatabase
 import com.ricky.meupet.data.dao.AplicacaoDao
 import com.ricky.meupet.data.dao.MedicamentoDao
@@ -23,6 +24,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Singleton
+    @Provides
+    fun provideNotificationService(@ApplicationContext context: Context): NotificationService {
+        return NotificationService(context)
+    }
 
     @Singleton
     @Provides
