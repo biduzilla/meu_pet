@@ -136,8 +136,8 @@ class VacinaViewModel @Inject constructor(
     ) {
         val not = NotificacaoInfo(
             "Revacinar - $title",
-            "Faltam 7 dias para revacinação do(a) $nome da vacina $title",
-            -7
+            "Hoje está marcado a revacinação do(a) $nome da vacina $title",
+            0
         )
         data?.dataParaLongEspecifica(
             dia = not.diasAntes,

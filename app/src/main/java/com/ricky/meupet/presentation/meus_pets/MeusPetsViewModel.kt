@@ -26,22 +26,6 @@ class MeusPetsViewModel @Inject constructor(
 
     init {
         recuperaPets()
-
-        val dataSty = "02/09/2023"
-        val data = dataSty.convertToDate()
-        val calendar = Calendar.getInstance()
-
-        if (data != null) {
-            calendar.time = data
-            calendar.add(Calendar.SECOND, 10)
-            val dataNoFuturo: Long = calendar.timeInMillis
-            notificationService.scheduleNotification(
-                date = dataNoFuturo,
-                title ="teste",
-                message = "teste"
-            )
-        }
-
     }
 
     private fun recuperaPets() {
