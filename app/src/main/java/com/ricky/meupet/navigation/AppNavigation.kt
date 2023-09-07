@@ -60,7 +60,7 @@ fun AppNavigation() {
             )
         }
 
-        composableSlideHorizontally(route = Screens.ConfigScreen.route) {
+        composableSlideHorizontally(route = Screens.ConfigScreen.route + "/{petId}") {
             val viewModel = hiltViewModel<ConfigViewModel>()
             val state by viewModel.state.collectAsState()
 

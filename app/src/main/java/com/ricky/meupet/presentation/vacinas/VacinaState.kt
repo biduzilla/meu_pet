@@ -2,7 +2,7 @@ package com.ricky.meupet.presentation.vacinas
 
 import com.ricky.meupet.domain.MedicamentosMesAno
 import com.ricky.meupet.domain.MedicamentosParaSerAplicados
-import com.ricky.meupet.domain.model.relationship.MedicamentoWithAplicacoes
+import com.ricky.meupet.domain.model.tipos.MedicamentoTipo
 
 data class VacinaState(
     val medicamentosMesAno: List<MedicamentosMesAno> = emptyList(),
@@ -17,4 +17,5 @@ data class VacinaState(
     val onErrorNome: Boolean = false,
     val onErrorDescricao: Boolean = false,
     val onErrorData: Boolean = false,
+    val medicamentoTipo:MedicamentoTipo =MedicamentoTipo.VACINA,
 )

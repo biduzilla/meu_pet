@@ -1,17 +1,26 @@
 <resources>
     <string name="app_name">Meu Pet</string>
     <string name="cadastrar_pet">Cadastrar Pet</string>
+    <string name="update_pet">Atualizar Pet</string>
     <string name="meus_pets">Meus Pets</string>
     <string name="nome">Nome do Pet</string>
     <string name="nome_vacina">Nome da Vacina</string>
+    <string name="nome_medicamento">Nome do Medicamento</string>
+    <string name="nome_vermifugacao">Nome da Vermifugação</string>
     <string name="descricao_vacina">Descrição da Vacina</string>
+    <string name="descricao_medicamento">Descrição do Medicamento</string>
+    <string name="descricao_vermifugacao">Descrição da Vermifugação</string>
     <string name="data_aplicacao">Quando foi aplicado?</string>
     <string name="prox_aplicacao">Qual será a próxima aplicação?</string>
     <string name="add_vacina">Adicionar Vacina</string>
+    <string name="add_vermifugacao">Adicionar Vermifugação</string>
+    <string name="add_medicamento">Adicionar Medicamento</string>
     <string name="titulo_apagar_vacina">Deseja apagar registro da vacina?</string>
     <string name="prox_vacina">Próximas vacinas</string>
+    <string name="prox_verm">Próximas Vermifugações</string>
     <string name="prox_eventos">Próximos eventos</string>
     <string name="vacina_aplicada">Vacinas Aplicadas</string>
+    <string name="vermifugacao_aplicada">Vermifugações Aplicadas</string>
     <string name="apagar">Apagar</string>
     <string name="cancelar">Cancelar</string>
     <string name="idade">Idade</string>

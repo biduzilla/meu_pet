@@ -21,7 +21,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.MedicalInformation
+import androidx.compose.material.icons.filled.Medication
 import androidx.compose.material.icons.filled.Vaccines
+import androidx.compose.material.icons.outlined.Vaccines
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -104,7 +107,11 @@ fun CardRemedio(
                 verticalAlignment = Alignment.Bottom
             ) {
                 Image(
-                    imageVector = icon,
+                    imageVector = when (medicamento.medicamento.tipo) {
+                        MedicamentoTipo.MEDICAMENTO -> Icons.Default.MedicalInformation
+                        MedicamentoTipo.VACINA -> Icons.Default.Vaccines
+                        MedicamentoTipo.VERMIFUGACAO -> Icons.Default.Medication
+                    },
                     contentDescription = medicamento.medicamento.nome,
                     modifier = Modifier
                         .size(80.dp)

@@ -1,6 +1,7 @@
 package com.ricky.meupet.presentation.home.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,6 +41,7 @@ fun TopBar(
     label: String,
     isDark: Boolean,
     onPressVoltar: () -> Unit,
+    onClick: () -> Unit,
     onChangeTheme: (Boolean) -> Unit,
 ) {
     Surface(
@@ -101,6 +103,7 @@ fun TopBar(
                     shape = CircleShape,
                     modifier = Modifier
                         .size(100.dp)
+                        .clickable { onClick() }
                 ) {
                     Image(
                         painter = rememberAsyncImagePainter(model = pet.pathFoto),
@@ -150,6 +153,6 @@ fun TopBarPreview() {
                 genero = AnimalGenero.FEMEA,
                 idade = "1 ano e 3 meses",
                 peso = BigDecimal(4.5)
-            ), isDark = false, onPressVoltar = {}, onChangeTheme = {})
+            ), isDark = false, onPressVoltar = {}, onChangeTheme = {}, onClick = {})
     }
 }

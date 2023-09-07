@@ -101,4 +101,19 @@ fun medicamentoToMedicamentoEventos(medicamentos: List<MedicamentoWithAplicacoes
         .sortedBy { it.dataAplicacao }
 }
 
+fun saveImageToInternalStorage(id: String, context: Context, uri: Uri): String? {
+    return try {
+        val inputStream = context.contentResolver.openInputStream(uri)
+        val outputStream = context.openFileOutput("$id.jpg", Context.MODE_PRIVATE)
+        inputStream?.use { input ->
+            outputStream.use { output ->
+                input.copyTo(output)
+            }
+        }
+
+        context.getFileStreamPath("$id.jpg")?.absolutePath
+    } catch (e: Exception) {
+        null
+    }
+}
 

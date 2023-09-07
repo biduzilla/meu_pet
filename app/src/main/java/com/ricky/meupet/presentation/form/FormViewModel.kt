@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ricky.meupet.common.calculateAgeAndMonths
 import com.ricky.meupet.common.convertToString
+import com.ricky.meupet.common.saveImageToInternalStorage
 import com.ricky.meupet.domain.model.Pet
 import com.ricky.meupet.domain.repository.PetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -62,16 +63,6 @@ class FormViewModel @Inject constructor(private val repository: PetRepository) :
                     )
                     return
                 }
-//                val pet = Pet(
-//                    nome = _state.value.nome,
-//                    idade = _state.value.idade,
-//                    nascimento = _state.value.nascimento,
-//                    tipo = _state.value.tipo,
-//                    raca = _state.value.raca,
-//                    genero = _state.value.genero,
-//                    peso = BigDecimal(_state.value.peso)
-//                )
-//                Log.i("infoteste", "onEvent: $pet")
 
                 val id = UUID.randomUUID().toString()
                 val pathFile = saveImageToInternalStorage(
@@ -92,7 +83,6 @@ class FormViewModel @Inject constructor(private val repository: PetRepository) :
                         genero = _state.value.genero,
                         peso = BigDecimal(_state.value.peso)
                     )
-                    Log.i("infoteste", "onEvent: $pet")
                     viewModelScope.launch {
                         repository.insertPet(pet)
                         _state.value = _state.value.copy(
@@ -100,7 +90,10 @@ class FormViewModel @Inject constructor(private val repository: PetRepository) :
                         )
                     }
                 } ?: run {
-                    return
+                    _state.value = _state.value.copy(
+                        onErrorPhoto = true,
+                        pathFoto = ""
+                    )
                 }
             }
 
@@ -165,25 +158,5 @@ class FormViewModel @Inject constructor(private val repository: PetRepository) :
                 context = event.context
             }
         }
-    }
-
-    private fun saveImageToInternalStorage(id: String, context: Context, uri: Uri): String? {
-        try {
-            val inputStream = context.contentResolver.openInputStream(uri)
-            val outputStream = context.openFileOutput("$id.jpg", Context.MODE_PRIVATE)
-            inputStream?.use { input ->
-                outputStream.use { output ->
-                    input.copyTo(output)
-                }
-            }
-
-            return context.getFileStreamPath("$id.jpg")?.absolutePath
-        } catch (e: Exception) {
-            _state.value = _state.value.copy(
-                onErrorPhoto = true,
-                pathFoto = ""
-            )
-        }
-        return null
     }
 }

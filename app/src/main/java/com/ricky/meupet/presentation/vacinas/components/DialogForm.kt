@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.ricky.meupet.R
+import com.ricky.meupet.domain.model.tipos.MedicamentoTipo
 import com.ricky.meupet.presentation.form.components.DateDialiog
 import com.ricky.meupet.presentation.form.components.TextFieldCompose
 import com.ricky.meupet.presentation.vacinas.VacinaState
@@ -72,7 +73,14 @@ fun DialogForm(
             ) {
                 Text(
                     modifier = Modifier.align(Alignment.CenterHorizontally),
-                    text = stringResource(id = R.string.add_vacina),
+                    text = stringResource(
+                        id =
+                        when (state.medicamentoTipo) {
+                            MedicamentoTipo.MEDICAMENTO -> R.string.add_medicamento
+                            MedicamentoTipo.VACINA -> R.string.add_vacina
+                            MedicamentoTipo.VERMIFUGACAO -> R.string.add_vermifugacao
+                        }
+                    ),
                     style = MaterialTheme.typography.headlineMedium.copy(
                         fontWeight = FontWeight.Bold
                     )
@@ -80,53 +88,64 @@ fun DialogForm(
                 TextFieldCompose(
                     value = state.nome,
                     isError = state.onErrorNome,
-                    label = R.string.nome_vacina,
+                    label =
+                    when (state.medicamentoTipo) {
+                        MedicamentoTipo.MEDICAMENTO -> R.string.nome_medicamento
+                        MedicamentoTipo.VACINA -> R.string.nome_vacina
+                        MedicamentoTipo.VERMIFUGACAO -> R.string.nome_vermifugacao
+                    },
                     onChange = { onChangeNome(it) }
                 )
                 TextFieldCompose(
                     value = state.descricao,
                     isError = state.onErrorDescricao,
-                    label = R.string.descricao_vacina,
+                    label = when (state.medicamentoTipo) {
+                        MedicamentoTipo.MEDICAMENTO -> R.string.descricao_medicamento
+                        MedicamentoTipo.VACINA -> R.string.descricao_vacina
+                        MedicamentoTipo.VERMIFUGACAO -> R.string.descricao_vermifugacao
+                    },
                     onChange = { onChangeDescricao(it) }
                 )
-                Text(
-                    text = stringResource(id = R.string.data_aplicacao),
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Card(
-                    shape = RoundedCornerShape(10.dp),
-                    elevation = CardDefaults.cardElevation(10.dp),
-                    onClick = {
-                        showDataDialog()
-                        isProxVacina(false)
-                    },
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-                ) {
+                if (state.medicamentoTipo != MedicamentoTipo.MEDICAMENTO) {
                     Text(
-                        text = state.dataAplicacao.ifBlank { stringResource(id = R.string.escolher_data) },
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(16.dp)
+                        text = stringResource(id = R.string.data_aplicacao),
+                        style = MaterialTheme.typography.bodyLarge
                     )
-                }
+                    Card(
+                        shape = RoundedCornerShape(10.dp),
+                        elevation = CardDefaults.cardElevation(10.dp),
+                        onClick = {
+                            showDataDialog()
+                            isProxVacina(false)
+                        },
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                    ) {
+                        Text(
+                            text = state.dataAplicacao.ifBlank { stringResource(id = R.string.escolher_data) },
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    }
 
-                Text(
-                    text = stringResource(id = R.string.prox_aplicacao),
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                Card(
-                    shape = RoundedCornerShape(10.dp),
-                    elevation = CardDefaults.cardElevation(10.dp),
-                    onClick = {
-                        showDataDialog()
-                        isProxVacina(true)
-                    },
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-                ) {
                     Text(
-                        text = state.dataProxAplicacao.ifBlank { stringResource(id = R.string.escolher_data) },
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.padding(16.dp)
+                        text = stringResource(id = R.string.prox_aplicacao),
+                        style = MaterialTheme.typography.bodyLarge
                     )
+                    Card(
+                        shape = RoundedCornerShape(10.dp),
+                        elevation = CardDefaults.cardElevation(10.dp),
+                        onClick = {
+                            showDataDialog()
+                            isProxVacina(true)
+                        },
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                    ) {
+                        Text(
+                            text = state.dataProxAplicacao.ifBlank { stringResource(id = R.string.escolher_data) },
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier.padding(16.dp)
+                        )
+                    }
                 }
 
                 Button(

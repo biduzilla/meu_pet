@@ -23,6 +23,7 @@ import com.ricky.meupet.domain.repository.PetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.Calendar
@@ -57,46 +58,53 @@ class VacinaViewModel @Inject constructor(
 
     private fun recuperaMedicamentos(petId: String) {
         viewModelScope.launch {
-            repository.getMedicamentosWithAplicacaoByPetId(petId).collect { itens ->
-                val medicamentosMesAnoList = mutableListOf<MedicamentosMesAno>()
-
-                val vacinasPorMesAno = itens
-                    .flatMap { it.aplicacoes }
-                    .groupBy { aplicacao ->
-                        aplicacao.data.substring(3)
+            repository.getMedicamentosWithAplicacaoByPetId(petId)
+                .map { allItens ->
+                    allItens.filter {
+                        it.medicamento.tipo == MedicamentoTipo.VACINA
                     }
+                }
+                .collect { itens ->
+                    val medicamentosMesAnoList = mutableListOf<MedicamentosMesAno>()
 
-                val medicamentosAlreadyAdded = mutableSetOf<MedicamentoWithAplicacoes>()
+                    val vacinasPorMesAno = itens
+                        .flatMap { it.aplicacoes }
+                        .groupBy { aplicacao ->
+                            aplicacao.data.substring(3)
+                        }
 
-                for ((mesAno, vacinas) in vacinasPorMesAno) {
-                    val medicamentoWithAplicacoesList = mutableListOf<MedicamentoWithAplicacoes>()
+                    val medicamentosAlreadyAdded = mutableSetOf<MedicamentoWithAplicacoes>()
 
-                    for (aplicacao in vacinas) {
-                        val medicamento = itens.find { it.aplicacoes.contains(aplicacao) }
-                        medicamento?.let {
-                            if (!medicamentosAlreadyAdded.contains(it)) {
-                                medicamentoWithAplicacoesList.add(it)
-                                medicamentosAlreadyAdded.add(it)
+                    for ((mesAno, vacinas) in vacinasPorMesAno) {
+                        val medicamentoWithAplicacoesList =
+                            mutableListOf<MedicamentoWithAplicacoes>()
+
+                        for (aplicacao in vacinas) {
+                            val medicamento = itens.find { it.aplicacoes.contains(aplicacao) }
+                            medicamento?.let {
+                                if (!medicamentosAlreadyAdded.contains(it)) {
+                                    medicamentoWithAplicacoesList.add(it)
+                                    medicamentosAlreadyAdded.add(it)
+                                }
                             }
+                        }
+
+                        if (medicamentoWithAplicacoesList.isNotEmpty()) {
+                            medicamentosMesAnoList.add(
+                                MedicamentosMesAno(
+                                    medicamentos = medicamentoWithAplicacoesList,
+                                    mesAno = mesAno
+                                )
+                            )
                         }
                     }
 
-                    if (medicamentoWithAplicacoesList.isNotEmpty()) {
-                        medicamentosMesAnoList.add(
-                            MedicamentosMesAno(
-                                medicamentos = medicamentoWithAplicacoesList,
-                                mesAno = mesAno
-                            )
+                    _state.update {
+                        it.copy(
+                            medicamentosMesAno = formatarListaMesAno(medicamentosMesAnoList)
                         )
                     }
                 }
-
-                _state.update {
-                    it.copy(
-                        medicamentosMesAno = formatarListaMesAno(medicamentosMesAnoList)
-                    )
-                }
-            }
         }
     }
 
@@ -283,14 +291,14 @@ class VacinaViewModel @Inject constructor(
                     data = _state.value.dataProxAplicacao.convertToDate(),
                     nome = pet.nome
                 )
-//                viewModelScope.launch {
-//                    repository.insertMedicamentoWithAplicacoes(
-//                        medicamento = medicamento,
-//                        aplicacoes = aplicacoes
-//                    )
-//
-//                    _state.value = VacinaState()
-//                }
+                viewModelScope.launch {
+                    repository.insertMedicamentoWithAplicacoes(
+                        medicamento = medicamento,
+                        aplicacoes = aplicacoes
+                    )
+
+                    _state.value = VacinaState()
+                }
 
 
             }

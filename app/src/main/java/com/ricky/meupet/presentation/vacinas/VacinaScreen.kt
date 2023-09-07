@@ -1,7 +1,5 @@
 package com.ricky.meupet.presentation.vacinas
 
-import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,11 +19,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.ricky.meupet.R
-import com.ricky.meupet.common.convertToDate
-import com.ricky.meupet.common.convertToStringPrecisa
-import com.ricky.meupet.common.dataParaDataEspecifica
-import com.ricky.meupet.common.notificacao.NotificationService
-import com.ricky.meupet.domain.NotificacaoInfo
 import com.ricky.meupet.presentation.eventos.components.EventoCompose
 import com.ricky.meupet.presentation.vacinas.components.CardRemedio
 import com.ricky.meupet.presentation.vacinas.components.DialogForm
@@ -35,8 +28,6 @@ fun VacinaScreen(
     state: VacinaState,
     onEvent: (VacinaEvent) -> Unit
 ) {
-    val context = LocalContext.current
-
     Scaffold(floatingActionButton = {
         FloatingActionButton(onClick = { onEvent(VacinaEvent.OnShowDialog) }) {
             Icon(imageVector = Icons.Default.Vaccines, contentDescription = null)

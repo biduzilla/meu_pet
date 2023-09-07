@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.ricky.meupet.navigation.BottomNavigation
+import com.ricky.meupet.navigation.Screens
 import com.ricky.meupet.presentation.home.components.BottomBar
 import com.ricky.meupet.presentation.home.components.TopBar
 
@@ -26,7 +27,10 @@ fun HomeScrenn(
                 isDark = state.isDark,
                 onPressVoltar = { navController.popBackStack() },
                 onChangeTheme = { onEvent(HomeEvent.OnChangeTheme(it)) },
-                label = state.label
+                label = state.label,
+                onClick = {
+                    navController.navigate(Screens.ConfigScreen.route + "/${state.pet.id}")
+                }
             )
         },
         bottomBar = {
