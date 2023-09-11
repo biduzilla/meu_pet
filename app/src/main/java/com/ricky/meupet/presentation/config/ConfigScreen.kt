@@ -19,7 +19,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Done
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -74,32 +74,35 @@ fun ConfigScreen(
     }
 
     Scaffold(topBar = {
-        CenterAlignedTopAppBar(colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary
-        ), title = {
-            Text(
-                text = stringResource(id = R.string.update_pet),
-                style = MaterialTheme.typography.headlineMedium
-            )
-        }, navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = stringResource(id = R.string.voltar)
+        CenterAlignedTopAppBar(
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary
+            ),
+            title = {
+                Text(
+                    text = stringResource(id = R.string.update_pet),
+                    style = MaterialTheme.typography.headlineMedium
                 )
-            }
-        },
-            actions = {
-                IconButton(onClick = {
-                    onEvent(ConfigEvents.AddPet)
-
-                }) {
+            },
+            navigationIcon = {
+                IconButton(onClick = { navController.popBackStack() }) {
                     Icon(
-                        imageVector = Icons.Filled.Done,
-                        contentDescription = stringResource(id = R.string.salvar_pet)
+                        imageVector = Icons.Filled.ArrowBack,
+                        contentDescription = stringResource(id = R.string.voltar)
                     )
                 }
-            }
+            },
+//            actions = {
+//                IconButton(onClick = {
+//                    onEvent(ConfigEvents.AddPet)
+//
+//                }) {
+//                    Icon(
+//                        imageVector = Icons.Filled.Done,
+//                        contentDescription = stringResource(id = R.string.salvar_pet)
+//                    )
+//                }
+//            }
         )
     }) { paddingValues ->
         Column(
@@ -214,6 +217,29 @@ fun ConfigScreen(
                 list = AnimalGenero.values(),
                 onChange = { onEvent(ConfigEvents.OnChangeGenero(it)) }
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = { onEvent(ConfigEvents.AddPet) }) {
+                Text(
+                    text = stringResource(id = R.string.update_pet),
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(modifier = Modifier.fillMaxWidth(),
+                onClick = { onEvent(ConfigEvents.AddPet) }) {
+                Text(
+                    text = stringResource(id = R.string.update_pet),
+                    style = MaterialTheme.typography.bodyLarge,
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                )
+            }
             Spacer(modifier = Modifier.height(50.dp))
         }
     }

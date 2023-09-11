@@ -2,6 +2,7 @@
     <string name="app_name">Meu Pet</string>
     <string name="cadastrar_pet">Cadastrar Pet</string>
     <string name="update_pet">Atualizar Pet</string>
+    <string name="apagar_pet">Apagar Pet</string>
     <string name="meus_pets">Meus Pets</string>
     <string name="nome">Nome do Pet</string>
     <string name="nome_vacina">Nome da Vacina</string>
@@ -33,6 +34,6 @@
     <string name="salva">Salvar</string>
     <string name="campo_obrigatorio">Campo Obrigatório</string>
     <string name="voltar">Voltar</string>
-    <string name="tipo_animal">Tipo de Animal</string>
+    <string name="tipo_animal">Espécie</string>
     <string name="escolher_data">Escolher uma data</string>
 </resources>

@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ricky.meupet.common.Constants
 import com.ricky.meupet.common.DataStoreUtil
+import com.ricky.meupet.common.calculateAgeAndMonths
+import com.ricky.meupet.common.convertToDate
 import com.ricky.meupet.domain.repository.PetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,9 +33,15 @@ class HomeViewModel @Inject constructor(
 
     private fun recuperaPet(petId: String) {
         viewModelScope.launch {
-            _state.value = _state.value.copy(
-                pet = petRepository.getPetById(petId)
-            )
+            petRepository.getPetById(petId).let {
+                it.idade = calculateAgeAndMonths(it.nascimento.convertToDate()!!)
+
+                _state.value = _state.value.copy(
+                    pet = it
+                )
+
+            }
+
         }
     }
 

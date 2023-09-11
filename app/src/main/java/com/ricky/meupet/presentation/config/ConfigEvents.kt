@@ -8,6 +8,8 @@ import com.ricky.meupet.domain.model.tipos.AnimalTipo
 sealed interface ConfigEvents{
     object AddPet : ConfigEvents
     object ShowDataPicker : ConfigEvents
+    object ShowDialog : ConfigEvents
+    object DismissDialog : ConfigEvents
     data class OnChangeNome(val nome: String) : ConfigEvents
     data class OnChangeTipo(val tipo: AnimalTipo) : ConfigEvents
     data class OnChangeRaca(val raca: String) : ConfigEvents

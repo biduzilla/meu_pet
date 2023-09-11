@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ricky.meupet.common.Constants
 import com.ricky.meupet.common.calculateAgeAndMonths
+import com.ricky.meupet.common.convertToDate
 import com.ricky.meupet.common.convertToString
 import com.ricky.meupet.common.saveImageToInternalStorage
 import com.ricky.meupet.domain.model.Pet
@@ -48,7 +49,7 @@ class ConfigViewModel @Inject constructor(
                 it.copy(
                     nome = pet.nome,
                     idade = pet.idade,
-                    nascimento = pet.idade,
+                    nascimento = calculateAgeAndMonths(pet.nascimento.convertToDate()!!),
                     pathFoto = pet.pathFoto,
                     tipo = pet.tipo,
                     raca = pet.raca,
