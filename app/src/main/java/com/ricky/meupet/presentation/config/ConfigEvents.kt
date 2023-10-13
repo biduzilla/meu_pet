@@ -5,8 +5,9 @@ import android.net.Uri
 import com.ricky.meupet.domain.model.tipos.AnimalGenero
 import com.ricky.meupet.domain.model.tipos.AnimalTipo
 
-sealed interface ConfigEvents{
+sealed interface ConfigEvents {
     object AddPet : ConfigEvents
+    object RemoverPet : ConfigEvents
     object ShowDataPicker : ConfigEvents
     object ShowDialog : ConfigEvents
     object DismissDialog : ConfigEvents

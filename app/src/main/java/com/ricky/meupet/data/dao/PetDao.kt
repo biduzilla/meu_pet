@@ -20,6 +20,10 @@ interface PetDao {
     suspend fun getPetById(petId:String):Pet
 
     @Transaction
+    @Query("DELETE FROM PET WHERE id = :petId")
+    suspend fun deletePetById(petId:String):Pet
+
+    @Transaction
     @Query("SELECT * FROM PET WHERE id = :petId")
     suspend fun getPetWithMedicamentoById(petId:String):PetWithMedicamentos
 

@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.io.File
 import java.math.BigDecimal
 import java.util.Calendar
 import java.util.Date
@@ -34,9 +35,11 @@ class ConfigViewModel @Inject constructor(
     private val _state = MutableStateFlow(ConfigState())
     val state = _state.asStateFlow()
     private lateinit var context: Context
+    private lateinit var petId:String
 
     init {
         savedStateHandle.get<String>(Constants.PARAM_PET_ID)?.let {
+            petId = it
             recuperaPet(it)
         }
     }
@@ -94,11 +97,13 @@ class ConfigViewModel @Inject constructor(
                     return
                 }
 
+                deleteFileAtPath(_state.value.pathFoto)
+
                 val id = UUID.randomUUID().toString()
                 val pathFile = saveImageToInternalStorage(
                     id = id,
                     context = context,
-                    uri = _state.value.pathFoto.toUri()
+                    uri = _state.value.tempPathFoto.toUri()
                 )
 
                 pathFile?.let {
@@ -179,11 +184,39 @@ class ConfigViewModel @Inject constructor(
 
             is ConfigEvents.SelectPhoto -> {
                 _state.value = _state.value.copy(
-                    pathFoto = event.uri.toString(),
-                    onErrorPhoto = false
+                    tempPathFoto = event.uri.toString(),
                 )
                 context = event.context
             }
+
+            ConfigEvents.DismissDialog -> {
+                _state.update {
+                    it.copy(
+                        isShowDialog = false
+                    )
+                }
+            }
+
+            ConfigEvents.ShowDialog -> {
+                _state.update {
+                    it.copy(
+                        isShowDialog = true
+                    )
+                }
+            }
+
+            ConfigEvents.RemoverPet -> {
+                viewModelScope.launch {
+                    deleteFileAtPath(_state.value.pathFoto)
+                    repository.deletePetById(petId)
+                }
+            }
         }
     }
+
+    private fun deleteFileAtPath(filePath: String): Boolean {
+        val fileToDelete = File(filePath)
+        return fileToDelete.delete()
+    }
+
 }

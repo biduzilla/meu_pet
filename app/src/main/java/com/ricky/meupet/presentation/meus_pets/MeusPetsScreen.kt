@@ -37,20 +37,6 @@ fun MeusPetsScreen(
 //        deleteFileAtPath(it.pathFoto)
 //    }
 
-//    val dataSty = "02/09/2023"
-//    val data = dataSty.convertToDate()
-//    val calendar = Calendar.getInstance()
-//
-//    if (data != null) {
-//        calendar.time = data
-//        calendar.add(Calendar.DAY_OF_MONTH, -1)
-//        val dataNoFuturo: Long = calendar.timeInMillis
-//        NotificationService(context, "Teste Pet", "Bubu Linda").scheduleNotification(dataNoFuturo)
-//
-//        Log.i("infoteste", "MeusPetsScreen: ${Date(dataNoFuturo).convertToStringPrecisa()}")
-//    }
-
-
     Scaffold(topBar = {
         TopAppBar(
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(

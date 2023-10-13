@@ -17,12 +17,14 @@
     <string name="add_vermifugacao">Adicionar Vermifugação</string>
     <string name="add_medicamento">Adicionar Medicamento</string>
     <string name="titulo_apagar_vacina">Deseja apagar registro da vacina?</string>
+    <string name="titulo_apagar_pet">Deseja excluir o registro do pet?</string>
     <string name="prox_vacina">Próximas vacinas</string>
     <string name="prox_verm">Próximas Vermifugações</string>
     <string name="prox_eventos">Próximos eventos</string>
     <string name="vacina_aplicada">Vacinas Aplicadas</string>
     <string name="vermifugacao_aplicada">Vermifugações Aplicadas</string>
     <string name="apagar">Apagar</string>
+    <string name="excluir">Excluir</string>
     <string name="cancelar">Cancelar</string>
     <string name="idade">Idade</string>
     <string name="nascimento">Data do Nascimento</string>

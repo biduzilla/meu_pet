@@ -44,6 +44,8 @@ import coil.compose.rememberAsyncImagePainter
 import com.ricky.meupet.R
 import com.ricky.meupet.domain.model.tipos.AnimalGenero
 import com.ricky.meupet.domain.model.tipos.AnimalTipo
+import com.ricky.meupet.navigation.Screens
+import com.ricky.meupet.presentation.config.components.DialogRemoverPet
 import com.ricky.meupet.presentation.form.components.DateDialiog
 import com.ricky.meupet.presentation.form.components.DropdownCompose
 import com.ricky.meupet.presentation.form.components.TextFieldCompose
@@ -92,19 +94,20 @@ fun ConfigScreen(
                     )
                 }
             },
-//            actions = {
-//                IconButton(onClick = {
-//                    onEvent(ConfigEvents.AddPet)
-//
-//                }) {
-//                    Icon(
-//                        imageVector = Icons.Filled.Done,
-//                        contentDescription = stringResource(id = R.string.salvar_pet)
-//                    )
-//                }
-//            }
         )
     }) { paddingValues ->
+        if (state.isShowDialog) {
+            DialogRemoverPet(
+                onDimiss = { onEvent(ConfigEvents.DismissDialog) },
+                onRemoverPet = {
+                    onEvent(ConfigEvents.RemoverPet)
+                    navController.navigate(Screens.MeusPetsScreen.route) {
+                        popUpTo(Screens.ConfigScreen.route) {
+                            inclusive = true
+                        }
+                    }
+                })
+        }
         Column(
             Modifier
                 .padding(paddingValues)
@@ -138,7 +141,7 @@ fun ConfigScreen(
                     )
                 } else {
                     Image(
-                        painter = rememberAsyncImagePainter(model = state.pathFoto),
+                        painter = rememberAsyncImagePainter(model = state.tempPathFoto.ifBlank { state.pathFoto }),
                         contentDescription = null,
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.fillMaxSize()
@@ -230,9 +233,9 @@ fun ConfigScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(modifier = Modifier.fillMaxWidth(),
-                onClick = { onEvent(ConfigEvents.AddPet) }) {
+                onClick = { onEvent(ConfigEvents.ShowDataPicker) }) {
                 Text(
-                    text = stringResource(id = R.string.update_pet),
+                    text = stringResource(id = R.string.apagar_pet),
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Start,
                     modifier = Modifier
