@@ -5,6 +5,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,6 +22,7 @@ import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -82,13 +85,15 @@ fun FormScreen(
         ), title = {
             Text(
                 text = stringResource(id = R.string.cadastrar_pet),
-                style = MaterialTheme.typography.headlineMedium
+                style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onPrimary
             )
         }, navigationIcon = {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = stringResource(id = R.string.voltar)
+                    contentDescription = stringResource(id = R.string.voltar),
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
         },
@@ -98,7 +103,8 @@ fun FormScreen(
                 }) {
                     Icon(
                         imageVector = Icons.Filled.Done,
-                        contentDescription = stringResource(id = R.string.salvar_pet)
+                        contentDescription = stringResource(id = R.string.salvar_pet),
+                        tint = MaterialTheme.colorScheme.onPrimary
                     )
                 }
             }
@@ -124,13 +130,16 @@ fun FormScreen(
                         )
                     },
                 shape = RoundedCornerShape(10.dp),
-                elevation = CardDefaults.elevatedCardElevation(10.dp)
+                elevation = CardDefaults.elevatedCardElevation(10.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
             ) {
                 if (state.pathFoto.isBlank()) {
-                    Image(
+                    Icon(
                         imageVector = Icons.Default.AddAPhoto,
                         contentDescription = null,
-                        contentScale = ContentScale.Crop,
+                        tint = MaterialTheme.colorScheme.primaryContainer,
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(16.dp)
@@ -151,11 +160,6 @@ fun FormScreen(
                 label = R.string.nome,
                 onChange = { onEvent(FormEvent.OnChangeNome(it)) }
             )
-//            TextError(isErro = state.onErrorNome)
-//            CustomTextField(modifier = Modifier.fillMaxWidth(),
-//                value = state.nome,
-//                label = R.string.nome,
-//                onChange = { onEvent(FormEvent.OnChangeNome(it)) })
 
             Spacer(modifier = Modifier.height(16.dp))
             TextFieldCompose(
@@ -164,11 +168,6 @@ fun FormScreen(
                 onChange = { onEvent(FormEvent.OnChangeRaca(it)) },
                 isError = state.onErrorRaca
             )
-//            TextError(isErro = state.onErrorRaca)
-//            CustomTextField(modifier = Modifier.fillMaxWidth(),
-//                value = state.raca,
-//                label = R.string.raca,
-//                onChange = { onEvent(FormEvent.OnChangeRaca(it)) })
 
             Spacer(modifier = Modifier.height(16.dp))
             TextFieldCompose(
@@ -178,12 +177,6 @@ fun FormScreen(
                 onChange = { onEvent(FormEvent.OnChangePeso(it)) },
                 isError = state.onErrorPeso
             )
-//            TextError(isErro = state.onErrorPeso)
-//            CustomTextField(modifier = Modifier.fillMaxWidth(),
-//                value = state.peso,
-//                label = R.string.peso,
-//                keyboardType = KeyboardType.Decimal,
-//                onChange = { onEvent(FormEvent.OnChangePeso(it)) })
 
             Spacer(modifier = Modifier.height(16.dp))
             Card(
@@ -196,7 +189,7 @@ fun FormScreen(
             ) {
                 Text(
                     text = state.nascimento.ifBlank { stringResource(id = R.string.nascimento) },
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(16.dp)
                 )
             }
@@ -210,7 +203,7 @@ fun FormScreen(
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = stringResource(id = R.string.tipo_animal),
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                 textAlign = TextAlign.Start,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -223,7 +216,7 @@ fun FormScreen(
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = stringResource(id = R.string.sexo),
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                 textAlign = TextAlign.Start,
                 modifier = Modifier.fillMaxWidth()
             )

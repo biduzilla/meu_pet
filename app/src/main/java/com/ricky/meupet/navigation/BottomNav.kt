@@ -1,15 +1,12 @@
 package com.ricky.meupet.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.ricky.meupet.presentation.eventos.EventosScreen
 import com.ricky.meupet.presentation.eventos.EventosViewModel
 import com.ricky.meupet.presentation.medicamentos.MedicamentosScreen
@@ -25,14 +22,6 @@ fun BottomNavigation(navController: NavHostController, petId: String) {
         navController = navController,
         startDestination = BottomScreens.EventosScreens.route
     ) {
-//        composable(BottomScreens.EventosScreens.route + "/{petId}") {
-//            val viewModel = hiltViewModel<EventosViewModel>()
-//            val state by viewModel.state.collectAsState()
-//            EventosScreen(
-//                state = state,
-//                onEvent = viewModel::onEvent,
-//            )
-//        }
         composable(BottomScreens.EventosScreens.route) {
             val viewModel = hiltViewModel<EventosViewModel>()
             val state by viewModel.state.collectAsState()

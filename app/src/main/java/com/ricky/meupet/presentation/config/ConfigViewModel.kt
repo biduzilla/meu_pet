@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ricky.meupet.common.Constants
 import com.ricky.meupet.common.calculateAgeAndMonths
-import com.ricky.meupet.common.convertToDate
 import com.ricky.meupet.common.convertToString
 import com.ricky.meupet.common.saveImageToInternalStorage
 import com.ricky.meupet.domain.model.Pet
@@ -22,7 +21,6 @@ import java.io.File
 import java.math.BigDecimal
 import java.util.Calendar
 import java.util.Date
-import java.util.UUID
 import javax.inject.Inject
 
 @SuppressLint("StaticFieldLeak")

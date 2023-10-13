@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -51,7 +52,10 @@ fun TextFieldCompose(
         ) {
             Text(
                 text = stringResource(id = label),
-                style = MaterialTheme.typography.bodyLarge,
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                ),
             )
             TextField(
                 modifier = Modifier
@@ -66,6 +70,8 @@ fun TextFieldCompose(
                     unfocusedIndicatorColor = Color.Transparent,
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
+                    focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer
                 ),
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Sentences,

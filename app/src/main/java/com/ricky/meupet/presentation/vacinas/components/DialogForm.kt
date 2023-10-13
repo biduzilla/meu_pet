@@ -61,7 +61,10 @@ fun DialogForm(
     Dialog(onDismissRequest = onDimiss) {
         Card(
             shape = RoundedCornerShape(20.dp),
-            modifier = modifier
+            modifier = modifier,
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.onPrimary
+            )
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -109,7 +112,7 @@ fun DialogForm(
                 if (state.medicamentoTipo != MedicamentoTipo.MEDICAMENTO) {
                     Text(
                         text = stringResource(id = R.string.data_aplicacao),
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
                     )
                     Card(
                         shape = RoundedCornerShape(10.dp),
@@ -129,7 +132,7 @@ fun DialogForm(
 
                     Text(
                         text = stringResource(id = R.string.prox_aplicacao),
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
                     )
                     Card(
                         shape = RoundedCornerShape(10.dp),

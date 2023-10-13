@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.Medication
 import androidx.compose.material.icons.filled.Vaccines
 import androidx.compose.material.icons.outlined.Vaccines
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -70,9 +71,14 @@ fun CardRemedio(
                 isShowDialog = false
             })
     }
-    Card(modifier = modifier
-        .fillMaxWidth()
-        .clickable { expanded = !expanded }) {
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        ),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable { expanded = !expanded },
+    ) {
         Box {
             Row(
                 horizontalArrangement = Arrangement.End,

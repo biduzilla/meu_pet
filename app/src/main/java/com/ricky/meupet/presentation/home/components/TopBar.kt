@@ -20,10 +20,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -74,6 +76,12 @@ fun TopBar(
                 )
                 Switch(
                     checked = isDark,
+                    colors=SwitchDefaults.colors(
+                        checkedThumbColor =  MaterialTheme.colorScheme.onPrimaryContainer,
+                        uncheckedThumbColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        checkedBorderColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        uncheckedBorderColor =  MaterialTheme.colorScheme.onPrimaryContainer,
+                    ),
                     onCheckedChange = {
                         onChangeTheme(it)
                     },
@@ -81,12 +89,13 @@ fun TopBar(
                         if (isDark) {
                             Icon(
                                 imageVector = Icons.Default.DarkMode,
-                                contentDescription = null
+                                contentDescription = null,
                             )
                         } else {
                             Icon(
                                 imageVector = Icons.Default.LightMode,
                                 contentDescription = null,
+                                tint=MaterialTheme.colorScheme.primaryContainer
                             )
                         }
                     }

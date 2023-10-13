@@ -3,8 +3,11 @@ package com.ricky.meupet.presentation.form.components
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerColors
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
@@ -49,7 +52,7 @@ fun DateDialiog(
             headline = {
                 Text(
                     text = stringResource(id = R.string.escolher_data),
-                    modifier = Modifier.padding(start = 16.dp, bottom = 8.dp, top = 8.dp)
+                    modifier = Modifier.padding(start = 16.dp, bottom = 16.dp, top = 8.dp)
                 )
             })
     }

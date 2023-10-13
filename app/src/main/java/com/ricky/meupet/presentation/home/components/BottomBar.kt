@@ -2,6 +2,7 @@ package com.ricky.meupet.presentation.home.components
 
 import android.util.Log
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -25,7 +26,9 @@ fun BottomBar(
         BottomScreens.MedicamentosScreens,
     )
 
-    NavigationBar {
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.primary,
+    ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
@@ -34,7 +37,12 @@ fun BottomBar(
                 selected = currentRoute?.split("/")
                     ?.get(0) == item.route,
                 label = { Text(text = item.route) },
-                colors = NavigationBarItemDefaults.colors(),
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = MaterialTheme.colorScheme.tertiaryContainer,
+                    unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
+                    unselectedTextColor = MaterialTheme.colorScheme.onPrimary,
+                    selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer
+                ),
                 alwaysShowLabel = true,
                 icon = {
                     Icon(
@@ -51,7 +59,7 @@ fun BottomBar(
                         item.route.contains("Vermifugação") -> onChangeTela("Vermifugação")
                         item.route.contains("Medicamentos") -> onChangeTela("Medicamentos")
                     }
-                    if(BottomScreens.EventosScreens.route == item.route){
+                    if (BottomScreens.EventosScreens.route == item.route) {
                         navController.navigate(item.route) {
                             navController.graph.startDestinationRoute?.let { route ->
                                 popUpTo(route) {
@@ -62,7 +70,7 @@ fun BottomBar(
                             restoreState = true
                         }
 
-                    }else{
+                    } else {
                         navController.navigate(item.route + "/$petId") {
                             navController.graph.startDestinationRoute?.let { route ->
                                 popUpTo(route) {

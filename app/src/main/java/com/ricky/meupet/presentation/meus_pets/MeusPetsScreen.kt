@@ -2,6 +2,7 @@ package com.ricky.meupet.presentation.meus_pets
 
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,7 +25,6 @@ import com.ricky.meupet.R
 import com.ricky.meupet.navigation.Screens
 import com.ricky.meupet.presentation.meus_pets.components.CardAddPet
 import com.ricky.meupet.ui.theme.MeuPetTheme
-import java.io.File
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,11 +32,6 @@ fun MeusPetsScreen(
     state: MeusPetsState,
     navController: NavController,
 ) {
-    val context = LocalContext.current
-//    state.pets.forEach {
-//        deleteFileAtPath(it.pathFoto)
-//    }
-
     Scaffold(topBar = {
         TopAppBar(
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -48,7 +43,9 @@ fun MeusPetsScreen(
                     style = MaterialTheme.typography.headlineMedium.copy(
                         fontWeight = FontWeight.Bold
                     ),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             })
 
@@ -74,12 +71,6 @@ fun MeusPetsScreen(
 
     }
 
-}
-
-
-fun deleteFileAtPath(filePath: String): Boolean {
-    val fileToDelete = File(filePath)
-    return fileToDelete.delete()
 }
 
 @Preview
