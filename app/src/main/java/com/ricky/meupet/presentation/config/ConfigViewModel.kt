@@ -52,7 +52,7 @@ class ConfigViewModel @Inject constructor(
                 it.copy(
                     nome = pet.nome,
                     idade = pet.idade,
-                    nascimento = calculateAgeAndMonths(pet.nascimento.convertToDate()!!),
+                    nascimento = pet.nascimento,
                     pathFoto = pet.pathFoto,
                     tipo = pet.tipo,
                     raca = pet.raca,
@@ -99,16 +99,15 @@ class ConfigViewModel @Inject constructor(
 
                 deleteFileAtPath(_state.value.pathFoto)
 
-                val id = UUID.randomUUID().toString()
                 val pathFile = saveImageToInternalStorage(
-                    id = id,
+                    id = petId,
                     context = context,
                     uri = _state.value.tempPathFoto.toUri()
                 )
 
                 pathFile?.let {
                     val pet = Pet(
-                        id = id,
+                        id = petId,
                         nome = _state.value.nome,
                         idade = _state.value.idade,
                         nascimento = _state.value.nascimento,

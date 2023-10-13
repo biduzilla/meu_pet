@@ -19,6 +19,8 @@ class PetRepositoryImpl @Inject constructor(private val dao: PetDao) : PetReposi
     override suspend fun deletePet(pet: Pet) = dao.deletePet(pet)
 
     override suspend fun deleteMedicamentoById(petId: String) = dao.deleteMedicamentoById(petId)
+    override suspend fun deletePetById(petId: String) = dao.deletePetById(petId)
+
     override suspend fun getPetWithMedicamentoById(petId: String): PetWithMedicamentos {
         return dao.getPetWithMedicamentoById(petId = petId)
     }

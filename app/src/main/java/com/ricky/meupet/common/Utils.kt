@@ -13,7 +13,6 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.Period
 import java.time.ZoneId
-import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -26,7 +25,7 @@ fun calculateAgeAndMonths(birthDate: Date): String {
     val months = period.months
     val days = period.days
 
-    return if (years == 0 && months == 0) "$days dias" else "$months meses e $years anos"
+    return if (years == 0 && months == 0) "$days dias" else "$years anos e $months meses"
 }
 
 fun getFilePathFromContentUri(context: Context, contentUri: Uri): String? {

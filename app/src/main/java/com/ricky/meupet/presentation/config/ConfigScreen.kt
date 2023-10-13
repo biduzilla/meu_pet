@@ -19,6 +19,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -36,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -94,6 +96,14 @@ fun ConfigScreen(
                     )
                 }
             },
+            actions = {
+                IconButton(onClick = { onEvent(ConfigEvents.ShowDialog) }) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = stringResource(id = R.string.apagar_pet)
+                    )
+                }
+            }
         )
     }) { paddingValues ->
         if (state.isShowDialog) {
@@ -183,7 +193,7 @@ fun ConfigScreen(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
             ) {
                 Text(
-                    text = state.nascimento.ifBlank { stringResource(id = R.string.nascimento) },
+                    text = state.idade,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(16.dp)
                 )
@@ -222,28 +232,20 @@ fun ConfigScreen(
             )
 
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { onEvent(ConfigEvents.AddPet) }) {
+            Button(onClick = {
+                onEvent(ConfigEvents.AddPet)
+                navController.popBackStack()
+            }) {
                 Text(
                     text = stringResource(id = R.string.update_pet),
-                    style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Start,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(modifier = Modifier.fillMaxWidth(),
-                onClick = { onEvent(ConfigEvents.ShowDataPicker) }) {
-                Text(
-                    text = stringResource(id = R.string.apagar_pet),
-                    style = MaterialTheme.typography.bodyLarge,
-                    textAlign = TextAlign.Start,
+                    style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
+                    textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(8.dp)
+                        .padding(6.dp)
                 )
             }
-            Spacer(modifier = Modifier.height(50.dp))
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 

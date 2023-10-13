@@ -21,7 +21,7 @@ interface PetDao {
 
     @Transaction
     @Query("DELETE FROM PET WHERE id = :petId")
-    suspend fun deletePetById(petId:String):Pet
+    suspend fun deletePetById(petId:String)
 
     @Transaction
     @Query("SELECT * FROM PET WHERE id = :petId")

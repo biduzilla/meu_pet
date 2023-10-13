@@ -11,6 +11,6 @@ interface PetRepository {
     suspend fun updatePet(pet: Pet)
     suspend fun deletePet(pet: Pet)
     suspend fun deleteMedicamentoById(petId: String)
-    suspend fun deletePetById(petId:String):Pet
+    suspend fun deletePetById(petId:String)
     suspend fun getPetWithMedicamentoById(petId:String): PetWithMedicamentos
 }
